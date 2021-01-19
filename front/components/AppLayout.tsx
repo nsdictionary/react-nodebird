@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
+import LoginForm from "./LoginForm";
+import UserProfile from "./UserProfile";
 
 interface IProps {
   children: React.ReactNode;
 }
 
 const AppLayout = ({ children }: IProps) => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
   return (
     <div>
       <Menu mode={"horizontal"}>
@@ -30,23 +34,13 @@ const AppLayout = ({ children }: IProps) => {
         </Menu.Item>
       </Menu>
       <Row gutter={8}>
-        <Col
-          style={{ backgroundColor: "blue", height: "100px" }}
-          xs={24}
-          md={6}
-        />
-        <Col
-          style={{ backgroundColor: "red", height: "100px" }}
-          xs={24}
-          md={12}
-        >
+        <Col style={{ backgroundColor: "magenta" }} xs={24} md={6}>
+          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+        </Col>
+        <Col style={{ backgroundColor: "aqua" }} xs={24} md={12}>
           {children}
         </Col>
-        <Col
-          style={{ backgroundColor: "green", height: "100px" }}
-          xs={24}
-          md={6}
-        >
+        <Col style={{ backgroundColor: "lightgray" }} xs={24} md={6}>
           <a href="http://google.com" target="_blank" rel="noreferrer noopener">
             Google
           </a>
