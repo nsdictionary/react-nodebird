@@ -25,26 +25,24 @@ const Profile = () => {
   const followerError = false;
 
   return (
-    <>
+    <AppLayout>
       <Head>
         <title>Profile | NodeBird</title>
       </Head>
-      <AppLayout>
-        <NicknameEditForm />
-        <FollowList
-          header="following list"
-          data={followingsData}
-          onClickMore={loadMoreFollowings}
-          loading={!followingsData && !followingError}
-        />
-        <FollowList
-          header="follower list"
-          data={followersData}
-          onClickMore={loadMoreFollowers}
-          loading={!followersData && !followerError}
-        />
-      </AppLayout>
-    </>
+      <NicknameEditForm />
+      <FollowList
+        header="following list"
+        data={followingsData}
+        onClickMore={loadMoreFollowings}
+        loading={!followingsData && !followingError}
+      />
+      <FollowList
+        header="follower list"
+        data={followersData}
+        onClickMore={loadMoreFollowers}
+        loading={!followersData && !followerError}
+      />
+    </AppLayout>
   );
 };
 
