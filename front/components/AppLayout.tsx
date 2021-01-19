@@ -40,7 +40,11 @@ const AppLayout = ({ children }: IProps) => {
       </Menu>
       <Row gutter={8}>
         <Col style={{ backgroundColor: "magenta" }} xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {isLoggedIn ? (
+            <UserProfile setIsLoggedIn={setIsLoggedIn} />
+          ) : (
+            <LoginForm setIsLoggedIn={setIsLoggedIn} />
+          )}
         </Col>
         <Col style={{ backgroundColor: "aqua" }} xs={24} md={12}>
           {children}

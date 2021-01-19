@@ -3,11 +3,19 @@ import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
 
+interface IProps {
+  setIsLoggedIn: (loggedIn: boolean) => void;
+}
+
 const ButtonWrapper = styled.div`
   margin-top: 10px;
 `;
 
-const LoginForm = () => {
+const FormWrapper = styled(Form)`
+  padding: 10px;
+`;
+
+const LoginForm = ({ setIsLoggedIn }: IProps) => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -22,8 +30,16 @@ const LoginForm = () => {
     []
   );
 
+  const onSubmitForm = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      console.log(id, password);
+      setIsLoggedIn(true);
+    },
+    [id, password]
+  );
+
   return (
-    <Form>
+    <FormWrapper onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user_id">ID</label>
         <br />
@@ -48,7 +64,7 @@ const LoginForm = () => {
           </a>
         </Link>
       </ButtonWrapper>
-    </Form>
+    </FormWrapper>
   );
 };
 
