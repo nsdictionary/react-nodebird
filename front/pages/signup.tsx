@@ -1,12 +1,16 @@
 import React from "react";
 import AppLayout from "../components/AppLayout";
+import Head from "next/head";
 
-const Profile = () => {
+const Signup = () => {
   return (
-    <AppLayout>
-      <div>Signup</div>
-    </AppLayout>
+    <>
+      <Head>
+        <title>Signup | NodeBird</title>
+      </Head>
+      <AppLayout>Signup</AppLayout>
+    </>
   );
 };
 
-export default Profile;
+export default Signup;
