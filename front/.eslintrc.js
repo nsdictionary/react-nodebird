@@ -4,27 +4,23 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: "module",
     ecmaFeatures: {
-      jsx: true // Allows for the parsing of JSX
-    }
+      jsx: true,
+    },
   },
   env: {
     browser: true,
     node: true,
-    es6: true
+    es6: true,
   },
   extends: [
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
   ],
-  plugins: [
-    "import",
-    "react-hooks",
-  ],
-  rules: {
-  },
+  plugins: ["@typescript-eslint", "import", "react-hooks"],
+  rules: {},
   settings: {
     react: {
-      version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
-    }
-  }
+      version: "detect", // Tells eslint-plugin-react to automatically detect the version of React to use
+    },
+  },
 };

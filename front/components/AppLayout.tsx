@@ -39,17 +39,17 @@ const AppLayout = ({ children }: IProps) => {
         </Menu.Item>
       </Menu>
       <Row gutter={8}>
-        <Col style={{ backgroundColor: "magenta" }} xs={24} md={6}>
+        <Col xs={24} md={6}>
           {isLoggedIn ? (
             <UserProfile setIsLoggedIn={setIsLoggedIn} />
           ) : (
             <LoginForm setIsLoggedIn={setIsLoggedIn} />
           )}
         </Col>
-        <Col style={{ backgroundColor: "aqua" }} xs={24} md={12}>
+        <Col xs={24} md={12}>
           {children}
         </Col>
-        <Col style={{ backgroundColor: "lightgray" }} xs={24} md={6}>
+        <Col xs={24} md={6}>
           <a href="http://google.com" target="_blank" rel="noreferrer noopener">
             Google
           </a>
