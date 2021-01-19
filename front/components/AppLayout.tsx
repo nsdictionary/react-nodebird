@@ -3,10 +3,15 @@ import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import LoginForm from "./LoginForm";
 import UserProfile from "./UserProfile";
+import styled from "styled-components";
 
 interface IProps {
   children: React.ReactNode;
 }
+
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle;
+`;
 
 const AppLayout = ({ children }: IProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -25,7 +30,7 @@ const AppLayout = ({ children }: IProps) => {
           </Link>
         </Menu.Item>
         <Menu.Item>
-          <Input.Search enterButton style={{ verticalAlign: "middle" }} />
+          <SearchInput enterButton />
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup">
