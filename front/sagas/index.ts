@@ -1,7 +1,16 @@
 import { all, fork } from "redux-saga/effects";
-import postSaga from "./post";
-import userSaga from "./user";
+
+import watchLogIn from "./user/login";
+import watchLogOut from "./user/logout";
+import watchSignUp from "./user/signUp";
+
+import watchAddPost from "./post/addPost";
 
 export default function* rootSaga() {
-  yield all([fork(postSaga), fork(userSaga)]);
+  yield all([
+    fork(watchLogIn),
+    fork(watchLogOut),
+    fork(watchSignUp),
+    fork(watchAddPost),
+  ]);
 }

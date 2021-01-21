@@ -4,7 +4,7 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_TO_ME,
-} from "../store/constants";
+} from "../../store/constants";
 import axios from "axios";
 
 function addPostAPI(data) {
@@ -30,10 +30,6 @@ function* addPost(action) {
     });
   }
 }
-function* watchAddPost() {
+export default function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
-}
-
-export default function* postSaga() {
-  yield all([fork(watchAddPost)]);
 }
