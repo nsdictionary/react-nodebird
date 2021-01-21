@@ -14,7 +14,7 @@ const FormWrapper = styled(Form)`
   padding: 10px;
 `;
 
-const FormError = styled.span`
+const FormError = styled.div`
   color: red;
 `;
 
@@ -38,14 +38,19 @@ const LoginForm = () => {
   return (
     <FormWrapper onFinish={handleSubmit(onSubmitForm)}>
       <div>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="login_email">Email</label>
         <br />
         <Controller
           name="email"
           control={control}
           defaultValue=""
           render={({ onChange, value }) => (
-            <Input value={value} onChange={onChange} />
+            <Input
+              id="login_email"
+              value={value}
+              onChange={onChange}
+              placeholder="Email"
+            />
           )}
           rules={{
             required: "Email is required",
@@ -60,14 +65,20 @@ const LoginForm = () => {
         )}
       </div>
       <div>
-        <label htmlFor="password">Password</label>
+        <label htmlFor="login_password">Password</label>
         <br />
         <Controller
           name="password"
           control={control}
           defaultValue=""
           render={({ onChange, value }) => (
-            <Input type="password" value={value} onChange={onChange} />
+            <Input
+              id="login_password"
+              type="password"
+              value={value}
+              onChange={onChange}
+              placeholder="Password"
+            />
           )}
           rules={{ required: "Password is required" }}
         />
