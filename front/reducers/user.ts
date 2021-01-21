@@ -8,7 +8,8 @@ export const initialState = {
 export interface IUserState {
   isLoggedIn: boolean;
   user: null | {
-    id: number;
+    id?: number;
+    email: string;
     password: string;
   };
   signUpData: any;
@@ -35,7 +36,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.data,
+        user: { ...state.user, ...action.data },
       };
     case "LOG_OUT":
       return {

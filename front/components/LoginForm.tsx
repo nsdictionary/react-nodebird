@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../reducers/user";
+import { useForm, Controller } from "react-hook-form";
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -13,45 +14,66 @@ const FormWrapper = styled(Form)`
   padding: 10px;
 `;
 
+const FormError = styled.span`
+  color: red;
+`;
+
+interface ILoginForm {
+  email: string;
+  password: string;
+}
+
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const [id, setId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { errors, getValues, handleSubmit, control } = useForm<ILoginForm>({
+    mode: "onSubmit",
+  });
 
-  const onChangeId = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setId(e.target.value);
-  }, []);
-
-  const onChangePassword = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPassword(e.target.value);
-    },
-    []
-  );
-
-  const onSubmitForm = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      console.log(id, password);
-      dispatch(loginAction({ id, password }));
-    },
-    [id, password]
-  );
+  const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    const { email, password } = getValues();
+    console.log(email, password);
+    dispatch(loginAction({ email, password }));
+  };
 
   return (
-    <FormWrapper onFinish={onSubmitForm}>
+    <FormWrapper onFinish={handleSubmit(onSubmitForm)}>
       <div>
-        <label htmlFor="user_id">ID</label>
+        <label htmlFor="email">Email</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeId} />
+        <Controller
+          name="email"
+          control={control}
+          defaultValue=""
+          render={({ onChange, value }) => (
+            <Input value={value} onChange={onChange} />
+          )}
+          rules={{
+            required: "Email is required",
+            pattern: {
+              value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              message: "Invalid email address",
+            },
+          }}
+        />
+        {errors.email?.message && (
+          <FormError>{errors.email?.message}</FormError>
+        )}
       </div>
       <div>
-        <label htmlFor="user-password">Password</label>
+        <label htmlFor="password">Password</label>
         <br />
-        <Input
-          name="user-password"
-          value={password}
-          onChange={onChangePassword}
+        <Controller
+          name="password"
+          control={control}
+          defaultValue=""
+          render={({ onChange, value }) => (
+            <Input type="password" value={value} onChange={onChange} />
+          )}
+          rules={{ required: "Password is required" }}
         />
+        {errors.password?.message && (
+          <FormError>{errors.password?.message}</FormError>
+        )}
       </div>
       <ButtonWrapper>
         <Button type="primary" htmlType="submit" loading={false}>
