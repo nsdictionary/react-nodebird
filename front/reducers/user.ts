@@ -7,9 +7,13 @@ export const initialState = {
 
 export interface IUserState {
   isLoggedIn: boolean;
-  user: null | { id: string; password: string };
+  user: null | {
+    id: string;
+    password: string;
+  };
   signUpData: any;
   loginData: any;
+  me?: any;
 }
 
 // action creator
