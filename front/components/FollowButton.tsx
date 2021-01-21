@@ -1,11 +1,12 @@
 import React from "react";
+import { IPost } from "../reducers/post";
 
 interface IProps {
-  post: any;
+  post: IPost;
 }
 
 const FollowButton = ({ post }: IProps) => {
-  return <div>FollowButton</div>;
+  return <div>팔로우</div>;
 };
 
 export default FollowButton;

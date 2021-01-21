@@ -15,6 +15,7 @@ import { IState } from "../reducers";
 import PostImages from "./PostImages";
 import FollowButton from "./FollowButton";
 import PostCardContent from "./PostCardContent";
+import CommentForm from "./CommentForm";
 
 interface IProps {
   post: IPost;
@@ -24,15 +25,9 @@ const CardWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-class CommentForm extends React.Component<{ post: IPost }> {
-  render() {
-    return null;
-  }
-}
-
 const PostCard = ({ post }: IProps) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const id = useSelector((state: IState) => state.user.me && state.user.me.id);
+  const id = useSelector((state: IState) => state.user.user?.id);
 
   const [liked, setLiked] = useState(false);
 
