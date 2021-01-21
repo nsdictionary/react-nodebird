@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import AppLayout from "../components/AppLayout";
-import PostFrom from "../components/PostFrom";
-import PostCard from "../components/PostCard";
+import AppLayout from "../components/Common/AppLayout";
+import PostFrom from "../components/Posts/PostFrom";
+import PostCard from "../components/Posts/PostCard";
 import { IState } from "../reducers";
 import { IPost } from "../reducers/post";
 

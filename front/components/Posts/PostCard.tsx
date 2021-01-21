@@ -10,8 +10,8 @@ import {
 import styled from "styled-components";
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { IPost } from "../reducers/post";
-import { IState } from "../reducers";
+import { IPost } from "../../reducers/post";
+import { IState } from "../../reducers";
 import PostImages from "./PostImages";
 import FollowButton from "./FollowButton";
 import PostCardContent from "./PostCardContent";

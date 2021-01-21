@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import AppLayout from "../components/AppLayout";
+import AppLayout from "../components/Common/AppLayout";
 import Head from "next/head";
-import NicknameEditForm from "../components/NicknameEditForm";
-import FollowList from "../components/FollowList";
+import NicknameEditForm from "../components/Profile/NicknameEditForm";
+import FollowList from "../components/Profile/FollowList";
 
 const Profile = () => {
   const followingsData = [

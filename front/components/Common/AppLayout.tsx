@@ -2,10 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
-import LoginForm from "./LoginForm";
-import UserProfile from "./UserProfile";
+import LoginForm from "../Login/LoginForm";
+import UserProfile from "../Login/UserProfile";
 import styled from "styled-components";
-import { IState } from "../reducers";
+import { IState } from "../../reducers";
 import { createGlobalStyle } from "styled-components";
 
 // antd design bug fix (gutter)

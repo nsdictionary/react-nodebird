@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Button, Form, Input } from "antd";
-import { IPost } from "../reducers/post";
+import { IPost } from "../../reducers/post";
 
 interface IProps {
   post: IPost;

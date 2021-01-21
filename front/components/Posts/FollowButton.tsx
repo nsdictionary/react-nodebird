@@ -1,5 +1,5 @@
 import React from "react";
-import { IPost } from "../reducers/post";
+import { IPost } from "../../reducers/post";
 
 interface IProps {
   post: IPost;
