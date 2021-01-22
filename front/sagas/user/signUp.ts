@@ -30,19 +30,19 @@ function* signUp() {
   }
 }
 
-export const signUpInitialState = {
-  signUpLoading: false,
-  signUpDone: false,
-  signUpError: null,
-};
-
 export interface ISignUpState {
   signUpLoading: boolean;
   signUpDone: boolean;
   signUpError: null | string;
 }
 
-export const signUpHandler = {
+const initialState = {
+  signUpLoading: false,
+  signUpDone: false,
+  signUpError: null,
+};
+
+const actions = {
   [SIGN_UP_REQUEST]: (state: IUserState, action) => {
     state.signUpLoading = true;
     state.signUpError = null;
@@ -56,6 +56,10 @@ export const signUpHandler = {
     state.signUpLoading = false;
     state.signUpError = action.error;
   },
+};
+
+export const useSignUpHandler = () => {
+  return { initialState, actions };
 };
 
 export default function* watchSignUp() {

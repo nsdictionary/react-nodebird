@@ -27,19 +27,19 @@ function* logOut() {
   }
 }
 
-export const logoutInitialState = {
-  logOutLoading: false,
-  logOutDone: false,
-  logOutError: null,
-};
-
-export interface ILogoutState {
+export interface ILogOutState {
   logOutLoading: boolean;
   logOutDone: boolean;
   logOutError: null | string;
 }
 
-export const logoutHandler = {
+const initialState = {
+  logOutLoading: false,
+  logOutDone: false,
+  logOutError: null,
+};
+
+const actions = {
   [LOG_OUT_REQUEST]: (state: IUserState, action) => {
     state.logOutLoading = true;
     state.logOutError = null;
@@ -54,6 +54,10 @@ export const logoutHandler = {
     state.logOutLoading = false;
     state.logOutError = action.error;
   },
+};
+
+export const useLogOutHandler = () => {
+  return { initialState, actions };
 };
 
 export default function* watchLogOut() {

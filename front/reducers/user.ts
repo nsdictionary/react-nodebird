@@ -5,32 +5,26 @@ import {
   REMOVE_POST_OF_ME,
 } from "../store/constants";
 import createReducer from "../util/createReducer";
-import {
-  ILoginState,
-  loginHandler,
-  loginInitialState,
-} from "../sagas/user/login";
-import {
-  ILogoutState,
-  logoutHandler,
-  logoutInitialState,
-} from "../sagas/user/logout";
-import {
-  ISignUpState,
-  signUpHandler,
-  signUpInitialState,
-} from "../sagas/user/signUp";
+import { ILogInState, useLogInHandler } from "../sagas/user/login";
+import { ILogOutState, useLogOutHandler } from "../sagas/user/logout";
+import { ISignUpState, useSignUpHandler } from "../sagas/user/signUp";
+
+const handlers = [useLogOutHandler(), useLogInHandler(), useSignUpHandler()];
 
 export const initialState = {
-  ...loginInitialState,
-  ...logoutInitialState,
-  ...signUpInitialState,
+  ...handlers
+    .map((v) => {
+      return { ...v.initialState };
+    })
+    .reduce((acc, cur) => {
+      return { ...acc, ...cur };
+    }),
   me: null,
   signUpData: {},
   loginData: {},
 };
 
-export interface IUserState extends ILoginState, ILogoutState, ISignUpState {
+export interface IUserState extends ILogInState, ILogOutState, ISignUpState {
   me: null | {
     id: number;
     nickname: string;
@@ -53,9 +47,13 @@ export const logoutRequestAction = () => ({
 });
 
 const reducer = createReducer(initialState, {
-  ...loginHandler,
-  ...logoutHandler,
-  ...signUpHandler,
+  ...handlers
+    .map((v) => {
+      return { ...v.actions };
+    })
+    .reduce((acc, cur) => {
+      return { ...acc, ...cur };
+    }),
   [ADD_POST_TO_ME]: (state, action) => {
     state.me.Posts.unshift({ id: action.data });
   },

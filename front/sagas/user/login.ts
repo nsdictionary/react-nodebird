@@ -46,19 +46,19 @@ const dummyUser = (data) => ({
   ],
 });
 
-export const loginInitialState = {
-  logInLoading: false,
-  logInDone: false,
-  logInError: null,
-};
-
-export interface ILoginState {
+export interface ILogInState {
   logInLoading: boolean;
   logInDone: boolean;
   logInError: null | string;
 }
 
-export const loginHandler = {
+const initialState = {
+  logInLoading: false,
+  logInDone: false,
+  logInError: null,
+};
+
+const actions = {
   [LOG_IN_REQUEST]: (state: IUserState, action) => {
     state.logInLoading = true;
     state.logInError = null;
@@ -73,6 +73,10 @@ export const loginHandler = {
     state.logInLoading = false;
     state.logInError = action.error;
   },
+};
+
+export const useLogInHandler = () => {
+  return { initialState, actions };
 };
 
 export default function* watchLogIn() {
