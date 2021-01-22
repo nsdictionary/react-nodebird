@@ -51,19 +51,19 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
-export const addPostInitialState = {
-  addPostLoading: false,
-  addPostDone: false,
-  addPostError: null,
-};
-
 export interface IAddPostState {
   addPostLoading: boolean;
   addPostDone: boolean;
   addPostError: null | string;
 }
 
-export const addPostHandler = {
+const initialState = {
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
+};
+
+const actions = {
   [ADD_POST_REQUEST]: (state: IPostState, action) => {
     state.addPostLoading = true;
     state.addPostDone = false;
@@ -78,6 +78,10 @@ export const addPostHandler = {
     state.addPostLoading = false;
     state.addPostError = action.error;
   },
+};
+
+export const useAddPostHandler = () => {
+  return { initialState, actions };
 };
 
 export default function* watchAddPost() {

@@ -33,19 +33,19 @@ function* removePost(action) {
   }
 }
 
-export const removePostInitialState = {
-  removePostLoading: false,
-  removePostDone: false,
-  removePostError: null,
-};
-
 export interface IRemovePostState {
   removePostLoading: boolean;
   removePostDone: boolean;
   removePostError: null | string;
 }
 
-export const removePostHandler = {
+const initialState = {
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
+};
+
+const actions = {
   [REMOVE_POST_REQUEST]: (state: IPostState, action) => {
     state.removePostLoading = true;
     state.removePostDone = false;
@@ -60,6 +60,10 @@ export const removePostHandler = {
     state.removePostLoading = false;
     state.removePostError = action.error;
   },
+};
+
+export const useRemovePostHandler = () => {
+  return { initialState, actions };
 };
 
 export default function* watchRemovePost() {

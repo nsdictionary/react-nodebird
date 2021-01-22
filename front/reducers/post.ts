@@ -3,20 +3,20 @@ import faker from "faker";
 import { ADD_COMMENT_REQUEST, ADD_POST_REQUEST } from "../store/constants";
 import createReducer from "../util/createReducer";
 import {
-  addPostHandler,
-  addPostInitialState,
-  IAddPostState,
-} from "../sagas/post/addPost";
-import {
-  removePostHandler,
-  removePostInitialState,
-  IRemovePostState,
-} from "../sagas/post/removePost";
-import {
-  addCommentHandler,
-  addCommentInitialState,
   IAddCommentState,
+  useAddCommentHandler,
 } from "../sagas/post/addComment";
+import { IAddPostState, useAddPostHandler } from "../sagas/post/addPost";
+import {
+  IRemovePostState,
+  useRemovePostHandler,
+} from "../sagas/post/removePost";
+
+const handlers = [
+  useAddCommentHandler(),
+  useAddPostHandler(),
+  useRemovePostHandler(),
+];
 
 export const initialState = {
   mainPosts: [
@@ -60,9 +60,13 @@ export const initialState = {
     },
   ],
   imagePaths: [],
-  ...addPostInitialState,
-  ...removePostInitialState,
-  ...addCommentInitialState,
+  ...handlers
+    .map((v) => {
+      return { ...v.initialState };
+    })
+    .reduce((acc, cur) => {
+      return { ...acc, ...cur };
+    }),
 };
 
 type idType = any;
@@ -132,9 +136,13 @@ export const addComment = (data) => ({
 });
 
 const reducer = createReducer(initialState, {
-  ...addPostHandler,
-  ...removePostHandler,
-  ...addCommentHandler,
+  ...handlers
+    .map((v) => {
+      return { ...v.actions };
+    })
+    .reduce((acc, cur) => {
+      return { ...acc, ...cur };
+    }),
 });
 
 export default reducer;

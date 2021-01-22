@@ -37,19 +37,19 @@ const dummyComment = (data) => ({
   },
 });
 
-export const addCommentInitialState = {
-  addCommentLoading: false,
-  addCommentDone: false,
-  addCommentError: null,
-};
-
 export interface IAddCommentState {
   addCommentLoading: boolean;
   addCommentDone: boolean;
   addCommentError: null | string;
 }
 
-export const addCommentHandler = {
+const initialState = {
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
+};
+
+const actions = {
   [ADD_COMMENT_REQUEST]: (state: IPostState, action) => {
     state.addCommentLoading = true;
     state.addCommentDone = false;
@@ -65,6 +65,10 @@ export const addCommentHandler = {
     state.addCommentLoading = false;
     state.addCommentError = action.error;
   },
+};
+
+export const useAddCommentHandler = () => {
+  return { initialState, actions };
 };
 
 export default function* watchAddComment() {
