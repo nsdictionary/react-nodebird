@@ -5,6 +5,9 @@ import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
+  SIGN_UP_FAILURE,
+  SIGN_UP_REQUEST,
+  SIGN_UP_SUCCESS,
 } from "../store/constants";
 import { IPost } from "./post";
 
@@ -15,6 +18,9 @@ export const initialState = {
   logOutLoading: false, // 로그아웃 시도중
   logOutDone: false,
   logOutError: null,
+  signUpLoading: false, // 회원가입 시도중
+  signUpDone: false,
+  signUpError: null,
   me: null,
   signUpData: {},
   loginData: {},
@@ -106,6 +112,25 @@ const reducer = (state = initialState, action) => {
         ...state,
         logOutLoading: false,
         logOutError: action.error,
+      };
+    case SIGN_UP_REQUEST:
+      return {
+        ...state,
+        signUpLoading: true,
+        signUpError: null,
+        signUpDone: false,
+      };
+    case SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        signUpLoading: false,
+        signUpDone: true,
+      };
+    case SIGN_UP_FAILURE:
+      return {
+        ...state,
+        signUpLoading: false,
+        signUpError: action.error,
       };
     default:
       return state;
