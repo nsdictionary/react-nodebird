@@ -1,13 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import AppLayout from "../components/Common/AppLayout";
 import Head from "next/head";
 import NicknameEditForm from "../components/Profile/NicknameEditForm";
 import FollowList from "../components/Profile/FollowList";
 import { useSelector } from "react-redux";
 import { IState } from "../reducers";
+import { useRouter } from "next/router";
 
 const Profile = () => {
   const { me } = useSelector((state: IState) => state.user);
+  const router = useRouter();
 
   const loadMoreFollowings = useCallback(() => {
     return true;
@@ -15,6 +17,16 @@ const Profile = () => {
   const loadMoreFollowers = useCallback(() => {
     return true;
   }, []);
+
+  useEffect(() => {
+    if (!(me && me.id)) {
+      router.push("/");
+    }
+  }, [me && me.id]);
+
+  if (!me) {
+    return null;
+  }
 
   return (
     <AppLayout>

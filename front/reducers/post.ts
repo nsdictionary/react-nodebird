@@ -72,20 +72,19 @@ export const initialState = {
 
 type idType = any;
 
+type User = {
+  id: idType;
+  nickname: string;
+};
+
 export interface IPost {
   id: idType;
   content: string;
-  User: {
-    id: idType;
-    nickname: string;
-  };
+  User: User;
   Images: { src: string }[];
   Comments: {
     id: idType;
-    User: {
-      id: idType;
-      nickname: string;
-    };
+    User: User;
     content: string;
   }[];
 }
