@@ -27,7 +27,7 @@ const CardWrapper = styled.div`
 
 const PostCard = ({ post }: IProps) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const id = useSelector((state: IState) => state.user.user?.id);
+  const id = useSelector((state: IState) => state.user.me?.id);
 
   const [liked, setLiked] = useState(false);
 

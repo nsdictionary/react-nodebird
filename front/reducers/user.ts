@@ -6,6 +6,7 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
 } from "../store/constants";
+import { IPost } from "./post";
 
 export const initialState = {
   logInLoading: false, // 로그인 시도중
@@ -27,14 +28,33 @@ export interface IUserState {
   logOutDone: boolean;
   logOutError: null | string;
   me: null | {
-    id?: number;
+    id: number;
     nickname: string;
     email: string;
-    password: string;
+    Posts: IPost[];
+    Followings: { nickname: string }[];
+    Followers: { nickname: string }[];
   };
   signUpData: any;
   loginData: any;
 }
+
+const dummyUser = (data) => ({
+  ...data,
+  nickname: "DS1SVG",
+  id: 1,
+  Posts: [{ id: 1 }],
+  Followings: [
+    { nickname: "부기초" },
+    { nickname: "Chanho Lee" },
+    { nickname: "neue zeal" },
+  ],
+  Followers: [
+    { nickname: "부기초" },
+    { nickname: "Chanho Lee" },
+    { nickname: "neue zeal" },
+  ],
+});
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -58,8 +78,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         logInLoading: false,
-        // me: { id: 1, nickname: "SVG" },
-        me: { ...action.data, nickname: "SVG2" },
+        me: dummyUser(action.data),
         logInDone: true,
       };
     case LOG_IN_FAILURE:
