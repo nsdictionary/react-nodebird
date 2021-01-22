@@ -6,6 +6,7 @@ import watchSignUp from "./user/signUp";
 
 import watchAddPost from "./post/addPost";
 import watchAddComment from "./post/addComment";
+import watchRemovePost from "./post/removePost";
 
 export default function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export default function* rootSaga() {
     fork(watchSignUp),
     fork(watchAddPost),
     fork(watchAddComment),
+    fork(watchRemovePost),
   ]);
 }

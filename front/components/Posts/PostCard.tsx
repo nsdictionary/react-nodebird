@@ -9,13 +9,14 @@ import {
 } from "@ant-design/icons";
 import styled from "styled-components";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IPost } from "../../reducers/post";
 import { IState } from "../../reducers";
 import PostImages from "./PostImages";
 import FollowButton from "./FollowButton";
 import PostCardContent from "./PostCardContent";
 import CommentForm from "./CommentForm";
+import { REMOVE_POST_REQUEST } from "../../store/constants";
 
 interface IProps {
   post: IPost;
@@ -26,8 +27,10 @@ const CardWrapper = styled.div`
 `;
 
 const PostCard = ({ post }: IProps) => {
-  const [commentFormOpened, setCommentFormOpened] = useState(false);
+  const dispatch = useDispatch();
   const id = useSelector((state: IState) => state.user.me?.id);
+  const { removePostLoading } = useSelector((state: IState) => state.post);
+  const [commentFormOpened, setCommentFormOpened] = useState(false);
 
   const [liked, setLiked] = useState(false);
 
@@ -37,6 +40,13 @@ const PostCard = ({ post }: IProps) => {
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
+  }, []);
+
+  const onRemovePost = useCallback(() => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: post.id,
+    });
   }, []);
 
   return (
@@ -62,7 +72,13 @@ const PostCard = ({ post }: IProps) => {
                 {id && post.User.id === id ? (
                   <>
                     <Button>수정</Button>
-                    <Button danger>삭제</Button>
+                    <Button
+                      danger
+                      loading={removePostLoading}
+                      onClick={onRemovePost}
+                    >
+                      삭제
+                    </Button>
                   </>
                 ) : (
                   <Button>신고</Button>
