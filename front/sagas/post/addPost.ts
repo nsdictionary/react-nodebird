@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest, call } from "redux-saga/effects";
+import { all, fork, put, takeLatest, call, delay } from "redux-saga/effects";
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
@@ -13,15 +13,17 @@ function addPostAPI(data) {
 
 function* addPost(action) {
   try {
-    const result = yield call(addPostAPI, action.data);
+    // const result = yield call(addPostAPI, action.data);
+    delay(1000);
     yield put({
       type: ADD_POST_SUCCESS,
-      data: result.data,
+      // data: result.data,
+      data: action.data,
     });
-    yield put({
-      type: ADD_POST_TO_ME,
-      data: result.data.id,
-    });
+    // yield put({
+    //   type: ADD_POST_TO_ME,
+    //   data: result.data.id,
+    // });
   } catch (err) {
     console.error(err);
     yield put({

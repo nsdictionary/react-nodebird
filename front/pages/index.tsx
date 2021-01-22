@@ -7,12 +7,12 @@ import { IState } from "../reducers";
 import { IPost } from "../reducers/post";
 
 const Home = () => {
-  const { isLoggedIn } = useSelector((state: IState) => state.user);
+  const { me } = useSelector((state: IState) => state.user);
   const { mainPosts } = useSelector((state: IState) => state.post);
 
   return (
     <AppLayout>
-      {isLoggedIn && <PostFrom />}
+      {me && <PostFrom />}
       {mainPosts.map((c: IPost) => {
         return <PostCard key={c.id} post={c} />;
       })}

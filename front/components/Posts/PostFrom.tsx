@@ -5,7 +5,9 @@ import { IState } from "../../reducers";
 import { addPost } from "../../reducers/post";
 
 const PostFrom = () => {
-  const { imagePaths, postAdded } = useSelector((state: IState) => state.post);
+  const { imagePaths, addPostDone } = useSelector(
+    (state: IState) => state.post
+  );
   const [text, setText] = useState("");
   const dispatch = useDispatch();
   const imageInput = useRef<HTMLInputElement>(null);
@@ -15,10 +17,10 @@ const PostFrom = () => {
   }, [imageInput.current]);
 
   useEffect(() => {
-    if (postAdded) {
+    if (addPostDone) {
       setText("");
     }
-  }, [postAdded]);
+  }, [addPostDone]);
 
   const onChangeText = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,7 +30,7 @@ const PostFrom = () => {
   );
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost);
+    dispatch(addPost({}));
   }, []);
 
   return (

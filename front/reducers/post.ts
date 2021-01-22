@@ -1,3 +1,12 @@
+import shortId from "shortid";
+
+import {
+  ADD_COMMENT_REQUEST,
+  ADD_POST_FAILURE,
+  ADD_POST_REQUEST,
+  ADD_POST_SUCCESS,
+} from "../store/constants";
+
 export const initialState = {
   mainPosts: [
     {
@@ -36,7 +45,9 @@ export const initialState = {
     },
   ],
   imagePaths: [],
-  postAdded: false,
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
 };
 
 export interface IPost {
@@ -52,17 +63,23 @@ export interface IPost {
 export interface IPostState {
   mainPosts: IPost[];
   imagePaths: any;
-  postAdded: boolean;
+  addPostLoading: boolean;
+  addPostDone: boolean;
+  addPostError: null | string;
 }
 
-const ADD_POST = "ADD_POST";
+export const addPost = (data) => ({
+  type: ADD_POST_REQUEST,
+  data,
+});
 
-export const addPost = {
-  type: ADD_POST,
-};
+export const addComment = (data) => ({
+  type: ADD_COMMENT_REQUEST,
+  data,
+});
 
-const dummyPost = {
-  id: 2,
+const dummyPost = (data) => ({
+  id: shortId.generate(),
   content: "더미데이터입니다.",
   User: {
     id: 1,
@@ -70,15 +87,37 @@ const dummyPost = {
   },
   Images: [],
   Comments: [],
-};
+});
+const dummyComment = (data) => ({
+  id: shortId.generate(),
+  content: data,
+  User: {
+    id: 2,
+    nickname: "제로초",
+  },
+});
 
 const reducer = (state: IPostState = initialState, action) => {
   switch (action.type) {
-    case ADD_POST:
+    case ADD_POST_REQUEST:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
-        postAdded: true,
+        addPostLoading: true,
+        addPostDone: false,
+        addPostError: null,
+      };
+    case ADD_POST_SUCCESS:
+      return {
+        ...state,
+        addPostLoading: false,
+        addPostDone: true,
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
+      };
+    case ADD_POST_FAILURE:
+      return {
+        ...state,
+        addPostLoading: false,
+        addPostError: action.error,
       };
     default:
       return state;
