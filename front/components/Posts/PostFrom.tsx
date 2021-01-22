@@ -5,11 +5,11 @@ import { IState } from "../../reducers";
 import { addPost } from "../../reducers/post";
 
 const PostFrom = () => {
+  const dispatch = useDispatch();
   const { imagePaths, addPostDone } = useSelector(
     (state: IState) => state.post
   );
   const [text, setText] = useState("");
-  const dispatch = useDispatch();
   const imageInput = useRef<HTMLInputElement>(null);
 
   const onClickImageUpload = useCallback(() => {
@@ -30,8 +30,8 @@ const PostFrom = () => {
   );
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost({}));
-  }, []);
+    dispatch(addPost({ text }));
+  }, [text]);
 
   return (
     <Form

@@ -45,9 +45,18 @@ export const initialState = {
     },
   ],
   imagePaths: [],
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 export interface IPost {
@@ -60,12 +69,24 @@ export interface IPost {
   Images: any;
   Comments: any;
 }
+
+type postError = null | string;
+
 export interface IPostState {
   mainPosts: IPost[];
   imagePaths: any;
+  loadPostsLoading: boolean;
+  loadPostsDone: boolean;
+  loadPostsError: postError;
   addPostLoading: boolean;
   addPostDone: boolean;
-  addPostError: null | string;
+  addPostError: postError;
+  removePostLoading: boolean;
+  removePostDone: boolean;
+  removePostError: postError;
+  addCommentLoading: boolean;
+  addCommentDone: boolean;
+  addCommentError: postError;
 }
 
 export const addPost = (data) => ({

@@ -16,15 +16,18 @@ const UserProfile = () => {
       actions={[
         <div key="twit">
           twit
-          <br />0
+          <br />
+          {me.Posts.length}
         </div>,
         <div key="followings">
           followings
-          <br />0
+          <br />
+          {me.Followings.length}
         </div>,
         <div key="followers">
           followers
-          <br />0
+          <br />
+          {me.Followers.length}
         </div>,
       ]}
     >

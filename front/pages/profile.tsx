@@ -3,26 +3,18 @@ import AppLayout from "../components/Common/AppLayout";
 import Head from "next/head";
 import NicknameEditForm from "../components/Profile/NicknameEditForm";
 import FollowList from "../components/Profile/FollowList";
+import { useSelector } from "react-redux";
+import { IState } from "../reducers";
 
 const Profile = () => {
-  const followingsData = [
-    { nickname: "sam" },
-    { nickname: "aden" },
-    { nickname: "bia" },
-  ];
-  const followersData = [
-    { nickname: "sam" },
-    { nickname: "aden" },
-    { nickname: "bia" },
-  ];
+  const { me } = useSelector((state: IState) => state.user);
+
   const loadMoreFollowings = useCallback(() => {
     return true;
   }, []);
   const loadMoreFollowers = useCallback(() => {
     return true;
   }, []);
-  const followingError = false;
-  const followerError = false;
 
   return (
     <AppLayout>
@@ -32,15 +24,15 @@ const Profile = () => {
       <NicknameEditForm />
       <FollowList
         header="following list"
-        data={followingsData}
+        data={me.Followings}
         onClickMore={loadMoreFollowings}
-        loading={!followingsData && !followingError}
+        loading={false}
       />
       <FollowList
         header="follower list"
-        data={followersData}
+        data={me.Followers}
         onClickMore={loadMoreFollowers}
-        loading={!followersData && !followerError}
+        loading={false}
       />
     </AppLayout>
   );

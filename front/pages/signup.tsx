@@ -3,8 +3,10 @@ import AppLayout from "../components/Common/AppLayout";
 import Head from "next/head";
 import { Button, Checkbox, Form, Input } from "antd";
 import styled from "styled-components";
-import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { SIGN_UP_REQUEST } from "../store/constants";
+import { IState } from "../reducers";
 
 const FormError = styled.div`
   color: red;
@@ -19,6 +21,8 @@ interface ISignupForm {
 }
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const { signUpLoading } = useSelector((state: IState) => state.user);
   const {
     errors,
     watch,
@@ -30,7 +34,15 @@ const Signup = () => {
   });
 
   const onSubmit = () => {
-    const { email, password, nickname } = getValues();
+    const { email, nickname, password } = getValues();
+    dispatch({
+      type: SIGN_UP_REQUEST,
+      data: {
+        email,
+        password,
+        nickname,
+      },
+    });
     console.log(email, nickname, password);
   };
 
@@ -165,7 +177,7 @@ const Signup = () => {
           )}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={signUpLoading}>
             Signup
           </Button>
         </div>
