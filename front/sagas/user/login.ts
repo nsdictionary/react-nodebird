@@ -5,6 +5,7 @@ import {
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
 } from "../../store/constants";
+import { IUserState } from "../../reducers/user";
 
 function logInAPI(data) {
   return axios.post("/user/login", data);
@@ -27,6 +28,52 @@ function* logIn(action) {
     });
   }
 }
+
+const dummyUser = (data) => ({
+  ...data,
+  nickname: "DS1SVG",
+  id: 1,
+  Posts: [{ id: 1 }],
+  Followings: [
+    { nickname: "부기초" },
+    { nickname: "Chanho Lee" },
+    { nickname: "neue zeal" },
+  ],
+  Followers: [
+    { nickname: "부기초" },
+    { nickname: "Chanho Lee" },
+    { nickname: "neue zeal" },
+  ],
+});
+
+export const loginInitialState = {
+  logInLoading: false,
+  logInDone: false,
+  logInError: null,
+};
+
+export interface ILoginState {
+  logInLoading: boolean;
+  logInDone: boolean;
+  logInError: null | string;
+}
+
+export const loginHandler = {
+  [LOG_IN_REQUEST]: (state: IUserState, action) => {
+    state.logInLoading = true;
+    state.logInError = null;
+    state.logInDone = false;
+  },
+  [LOG_IN_SUCCESS]: (state: IUserState, action) => {
+    state.logInLoading = false;
+    state.me = dummyUser(action.data);
+    state.logInDone = true;
+  },
+  [LOG_IN_FAILURE]: (state: IUserState, action) => {
+    state.logInLoading = false;
+    state.logInError = action.error;
+  },
+};
 
 export default function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);

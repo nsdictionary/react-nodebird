@@ -1,10 +1,14 @@
 import { put, takeLatest, call, delay } from "redux-saga/effects";
 import axios from "axios";
 import {
+  LOG_IN_FAILURE,
+  LOG_IN_REQUEST,
+  LOG_IN_SUCCESS,
   SIGN_UP_FAILURE,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
 } from "../../store/constants";
+import { IUserState } from "../../reducers/user";
 
 function signUpAPI() {
   return axios.post("/api/signUp");
@@ -25,6 +29,34 @@ function* signUp() {
     });
   }
 }
+
+export const signUpInitialState = {
+  signUpLoading: false,
+  signUpDone: false,
+  signUpError: null,
+};
+
+export interface ISignUpState {
+  signUpLoading: boolean;
+  signUpDone: boolean;
+  signUpError: null | string;
+}
+
+export const signUpHandler = {
+  [SIGN_UP_REQUEST]: (state: IUserState, action) => {
+    state.signUpLoading = true;
+    state.signUpError = null;
+    state.signUpDone = false;
+  },
+  [SIGN_UP_SUCCESS]: (state: IUserState, action) => {
+    state.signUpLoading = false;
+    state.signUpDone = true;
+  },
+  [SIGN_UP_FAILURE]: (state: IUserState, action) => {
+    state.signUpLoading = false;
+    state.signUpError = action.error;
+  },
+};
 
 export default function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
