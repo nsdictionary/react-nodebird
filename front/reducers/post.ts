@@ -11,11 +11,13 @@ import {
   IRemovePostState,
   useRemovePostHandler,
 } from "../sagas/post/removePost";
+import { ILoadPostState, useLoadPostHandler } from "../sagas/post/loadPost";
 
 const handlers = [
   useAddCommentHandler(),
   useAddPostHandler(),
   useRemovePostHandler(),
+  useLoadPostHandler(),
 ];
 
 export const initialState = {
@@ -60,6 +62,7 @@ export const initialState = {
     },
   ],
   imagePaths: [],
+  hasMorePosts: true,
   ...handlers
     .map((v) => {
       return { ...v.initialState };
@@ -91,8 +94,10 @@ export interface IPost {
 export interface IPostState
   extends IAddPostState,
     IRemovePostState,
-    IAddCommentState {
+    IAddCommentState,
+    ILoadPostState {
   mainPosts: IPost[];
+  hasMorePosts: boolean;
   imagePaths: any;
 }
 
@@ -122,8 +127,6 @@ export const generateDummyPost = (number: number): IPost[] =>
         },
       ],
     }));
-
-initialState.mainPosts = [...initialState.mainPosts, ...generateDummyPost(10)];
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
