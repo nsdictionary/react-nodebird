@@ -1,4 +1,5 @@
 import {
+  ADD_POST_REQUEST,
   ADD_POST_TO_ME,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
@@ -11,8 +12,7 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
 } from "../store/constants";
-import produce from "immer";
-import { WritableDraft } from "immer/dist/types/types-external";
+import createReducer from "../util/createReducer";
 
 export const initialState = {
   followLoading: false, // 팔로우 시도중
@@ -97,59 +97,54 @@ export const logoutRequestAction = () => ({
   type: LOG_OUT_REQUEST,
 });
 
-const reducer = (state: IUserState = initialState, action) =>
-  produce(state, (draft: WritableDraft<IUserState>) => {
-    switch (action.type) {
-      case LOG_IN_REQUEST:
-        draft.logInLoading = true;
-        draft.logInError = null;
-        draft.logInDone = false;
-        break;
-      case LOG_IN_SUCCESS:
-        draft.logInLoading = false;
-        draft.me = dummyUser(action.data);
-        draft.logInDone = true;
-        break;
-      case LOG_IN_FAILURE:
-        draft.logInLoading = false;
-        draft.logInError = action.error;
-        break;
-      case LOG_OUT_REQUEST:
-        draft.logOutLoading = true;
-        draft.logOutError = null;
-        draft.logOutDone = false;
-        break;
-      case LOG_OUT_SUCCESS:
-        draft.logOutLoading = false;
-        draft.logOutDone = true;
-        draft.me = null;
-        break;
-      case LOG_OUT_FAILURE:
-        draft.logOutLoading = false;
-        draft.logOutError = action.error;
-        break;
-      case SIGN_UP_REQUEST:
-        draft.signUpLoading = true;
-        draft.signUpError = null;
-        draft.signUpDone = false;
-        break;
-      case SIGN_UP_SUCCESS:
-        draft.signUpLoading = false;
-        draft.signUpDone = true;
-        break;
-      case SIGN_UP_FAILURE:
-        draft.signUpLoading = false;
-        draft.signUpError = action.error;
-        break;
-      case ADD_POST_TO_ME:
-        draft.me.Posts.unshift({ id: action.data });
-        break;
-      case REMOVE_POST_OF_ME:
-        draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
-        break;
-      default:
-        break;
-    }
-  });
+const reducer = createReducer(initialState, {
+  [LOG_IN_REQUEST]: (state, action) => {
+    state.logInLoading = true;
+    state.logInError = null;
+    state.logInDone = false;
+  },
+  [LOG_IN_SUCCESS]: (state, action) => {
+    state.logInLoading = false;
+    state.me = dummyUser(action.data);
+    state.logInDone = true;
+  },
+  [LOG_IN_FAILURE]: (state, action) => {
+    state.logInLoading = false;
+    state.logInError = action.error;
+  },
+  [LOG_OUT_REQUEST]: (state, action) => {
+    state.logOutLoading = true;
+    state.logOutError = null;
+    state.logOutDone = false;
+  },
+  [LOG_OUT_SUCCESS]: (state, action) => {
+    state.logOutLoading = false;
+    state.logOutDone = true;
+    state.me = null;
+  },
+  [LOG_OUT_FAILURE]: (state, action) => {
+    state.logOutLoading = false;
+    state.logOutError = action.error;
+  },
+  [SIGN_UP_REQUEST]: (state, action) => {
+    state.signUpLoading = true;
+    state.signUpError = null;
+    state.signUpDone = false;
+  },
+  [SIGN_UP_SUCCESS]: (state, action) => {
+    state.signUpLoading = false;
+    state.signUpDone = true;
+  },
+  [SIGN_UP_FAILURE]: (state, action) => {
+    state.signUpLoading = false;
+    state.signUpError = action.error;
+  },
+  [ADD_POST_TO_ME]: (state, action) => {
+    state.me.Posts.unshift({ id: action.data });
+  },
+  [REMOVE_POST_OF_ME]: (state, action) => {
+    state.me.Posts = state.me.Posts.filter((v) => v.id !== action.data);
+  },
+});
 
 export default reducer;
