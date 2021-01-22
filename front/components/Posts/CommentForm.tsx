@@ -14,7 +14,7 @@ const CommentForm = ({ post }: IProps) => {
   const { addCommentDone, addCommentLoading } = useSelector(
     (state: IState) => state.post
   );
-  const { id } = useSelector((state: IState) => state.user?.me);
+  const id = useSelector((state: IState) => state.user.me?.id);
   const [commentText, setCommentText] = useState("");
 
   useEffect(() => {

@@ -99,7 +99,7 @@ const PostCard = ({ post }: IProps) => {
       </Card>
       {commentFormOpened && (
         <>
-          <CommentForm post={post} />
+          {id && <CommentForm post={post} />}
           <List
             header={`${post.Comments.length} 댓글`}
             itemLayout="horizontal"
