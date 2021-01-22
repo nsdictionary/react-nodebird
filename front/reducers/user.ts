@@ -22,35 +22,15 @@ import {
 } from "../sagas/user/signUp";
 
 export const initialState = {
-  followLoading: false, // 팔로우 시도중
-  followDone: false,
-  followError: null,
-  unfollowLoading: false, // 언팔로우 시도중
-  unfollowDone: false,
-  unfollowError: null,
   ...loginInitialState,
   ...logoutInitialState,
   ...signUpInitialState,
-  changeNicknameLoading: false, // 닉네임 변경 시도중
-  changeNicknameDone: false,
-  changeNicknameError: null,
   me: null,
   signUpData: {},
   loginData: {},
 };
 
-type userError = null | string;
-
 export interface IUserState extends ILoginState, ILogoutState, ISignUpState {
-  followLoading: boolean;
-  followDone: boolean;
-  followError: userError;
-  unfollowLoading: boolean;
-  unfollowDone: boolean;
-  unfollowError: userError;
-  changeNicknameLoading: boolean;
-  changeNicknameDone: boolean;
-  changeNicknameError: userError;
   me: null | {
     id: number;
     nickname: string;

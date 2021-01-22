@@ -6,6 +6,7 @@ import {
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
 } from "../../store/constants";
+import { IPostState } from "../../reducers/post";
 
 function removePostAPI(data) {
   return axios.delete("/api/post", data);
@@ -31,6 +32,35 @@ function* removePost(action) {
     });
   }
 }
+
+export const removePostInitialState = {
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
+};
+
+export interface IRemovePostState {
+  removePostLoading: boolean;
+  removePostDone: boolean;
+  removePostError: null | string;
+}
+
+export const removePostHandler = {
+  [REMOVE_POST_REQUEST]: (state: IPostState, action) => {
+    state.removePostLoading = true;
+    state.removePostDone = false;
+    state.removePostError = null;
+  },
+  [REMOVE_POST_SUCCESS]: (state: IPostState, action) => {
+    state.removePostLoading = false;
+    state.removePostDone = true;
+    state.mainPosts = state.mainPosts.filter((v) => v.id !== action.data);
+  },
+  [REMOVE_POST_FAILURE]: (state: IPostState, action) => {
+    state.removePostLoading = false;
+    state.removePostError = action.error;
+  },
+};
 
 export default function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);

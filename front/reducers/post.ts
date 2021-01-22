@@ -1,17 +1,22 @@
 import shortId from "shortid";
 import faker from "faker";
-import {
-  ADD_COMMENT_FAILURE,
-  ADD_COMMENT_REQUEST,
-  ADD_COMMENT_SUCCESS,
-  ADD_POST_FAILURE,
-  ADD_POST_REQUEST,
-  ADD_POST_SUCCESS,
-  REMOVE_POST_FAILURE,
-  REMOVE_POST_REQUEST,
-  REMOVE_POST_SUCCESS,
-} from "../store/constants";
+import { ADD_COMMENT_REQUEST, ADD_POST_REQUEST } from "../store/constants";
 import createReducer from "../util/createReducer";
+import {
+  addPostHandler,
+  addPostInitialState,
+  IAddPostState,
+} from "../sagas/post/addPost";
+import {
+  removePostHandler,
+  removePostInitialState,
+  IRemovePostState,
+} from "../sagas/post/removePost";
+import {
+  addCommentHandler,
+  addCommentInitialState,
+  IAddCommentState,
+} from "../sagas/post/addComment";
 
 export const initialState = {
   mainPosts: [
@@ -55,18 +60,9 @@ export const initialState = {
     },
   ],
   imagePaths: [],
-  loadPostsLoading: false,
-  loadPostsDone: false,
-  loadPostsError: null,
-  addPostLoading: false,
-  addPostDone: false,
-  addPostError: null,
-  removePostLoading: false,
-  removePostDone: false,
-  removePostError: null,
-  addCommentLoading: false,
-  addCommentDone: false,
-  addCommentError: null,
+  ...addPostInitialState,
+  ...removePostInitialState,
+  ...addCommentInitialState,
 };
 
 type idType = any;
@@ -88,23 +84,12 @@ export interface IPost {
   }[];
 }
 
-type postError = null | string;
-
-export interface IPostState {
+export interface IPostState
+  extends IAddPostState,
+    IRemovePostState,
+    IAddCommentState {
   mainPosts: IPost[];
   imagePaths: any;
-  loadPostsLoading: boolean;
-  loadPostsDone: boolean;
-  loadPostsError: postError;
-  addPostLoading: boolean;
-  addPostDone: boolean;
-  addPostError: postError;
-  removePostLoading: boolean;
-  removePostDone: boolean;
-  removePostError: postError;
-  addCommentLoading: boolean;
-  addCommentDone: boolean;
-  addCommentError: postError;
 }
 
 export const generateDummyPost = (number: number): IPost[] =>
@@ -146,69 +131,10 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: "제로초",
-  },
-  Images: [],
-  Comments: [],
-});
-const dummyComment = (data) => ({
-  id: shortId.generate(),
-  content: data,
-  User: {
-    id: 2,
-    nickname: "제로초",
-  },
-});
-
 const reducer = createReducer(initialState, {
-  [ADD_POST_REQUEST]: (state, action) => {
-    state.addPostLoading = true;
-    state.addPostDone = false;
-    state.addPostError = null;
-  },
-  [ADD_POST_SUCCESS]: (state, action) => {
-    state.addPostLoading = false;
-    state.addPostDone = true;
-    state.mainPosts.unshift(dummyPost(action.data));
-  },
-  [ADD_POST_FAILURE]: (state, action) => {
-    state.addPostLoading = false;
-    state.addPostError = action.error;
-  },
-  [REMOVE_POST_REQUEST]: (state, action) => {
-    state.removePostLoading = true;
-    state.removePostDone = false;
-    state.removePostError = null;
-  },
-  [REMOVE_POST_SUCCESS]: (state, action) => {
-    state.removePostLoading = false;
-    state.removePostDone = true;
-    state.mainPosts = state.mainPosts.filter((v) => v.id !== action.data);
-  },
-  [REMOVE_POST_FAILURE]: (state, action) => {
-    state.removePostLoading = false;
-    state.removePostError = action.error;
-  },
-  [ADD_COMMENT_REQUEST]: (state, action) => {
-    state.addCommentLoading = true;
-    state.addCommentDone = false;
-    state.addCommentError = null;
-  },
-  [ADD_COMMENT_SUCCESS]: (state, action) => {
-    const post = state.mainPosts.find((v) => v.id === action.data.postId);
-    post.Comments.unshift(dummyComment(action.data.content));
-    state.addCommentLoading = false;
-    state.addCommentDone = true;
-  },
-  [ADD_COMMENT_FAILURE]: (state, action) => {
-    state.addCommentLoading = false;
-    state.addCommentError = action.error;
-  },
+  ...addPostHandler,
+  ...removePostHandler,
+  ...addCommentHandler,
 });
 
 export default reducer;

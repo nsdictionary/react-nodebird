@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest, call, delay } from "redux-saga/effects";
+import { put, takeLatest, call, delay } from "redux-saga/effects";
 import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
@@ -7,6 +7,7 @@ import {
 } from "../../store/constants";
 import axios from "axios";
 import shortId from "shortid";
+import { IPostState } from "../../reducers/post";
 
 function addPostAPI(data) {
   return axios.post("/post", data);
@@ -38,6 +39,47 @@ function* addPost(action) {
     });
   }
 }
+
+const dummyPost = (data) => ({
+  id: data.id,
+  content: data.content,
+  User: {
+    id: 1,
+    nickname: "제로초",
+  },
+  Images: [],
+  Comments: [],
+});
+
+export const addPostInitialState = {
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
+};
+
+export interface IAddPostState {
+  addPostLoading: boolean;
+  addPostDone: boolean;
+  addPostError: null | string;
+}
+
+export const addPostHandler = {
+  [ADD_POST_REQUEST]: (state: IPostState, action) => {
+    state.addPostLoading = true;
+    state.addPostDone = false;
+    state.addPostError = null;
+  },
+  [ADD_POST_SUCCESS]: (state: IPostState, action) => {
+    state.addPostLoading = false;
+    state.addPostDone = true;
+    state.mainPosts.unshift(dummyPost(action.data));
+  },
+  [ADD_POST_FAILURE]: (state: IPostState, action) => {
+    state.addPostLoading = false;
+    state.addPostError = action.error;
+  },
+};
+
 export default function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
