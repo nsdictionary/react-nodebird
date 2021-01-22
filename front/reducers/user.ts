@@ -12,6 +12,12 @@ import {
 import { IPost } from "./post";
 
 export const initialState = {
+  followLoading: false, // 팔로우 시도중
+  followDone: false,
+  followError: null,
+  unfollowLoading: false, // 언팔로우 시도중
+  unfollowDone: false,
+  unfollowError: null,
   logInLoading: false, // 로그인 시도중
   logInDone: false,
   logInError: null,
@@ -21,18 +27,35 @@ export const initialState = {
   signUpLoading: false, // 회원가입 시도중
   signUpDone: false,
   signUpError: null,
+  changeNicknameLoading: false, // 닉네임 변경 시도중
+  changeNicknameDone: false,
+  changeNicknameError: null,
   me: null,
   signUpData: {},
   loginData: {},
 };
 
+type userError = null | string;
+
 export interface IUserState {
+  followLoading: boolean;
+  followDone: boolean;
+  followError: userError;
+  unfollowLoading: boolean;
+  unfollowDone: boolean;
+  unfollowError: userError;
   logInLoading: boolean;
   logInDone: boolean;
-  logInError: null | string;
+  logInError: userError;
   logOutLoading: boolean;
   logOutDone: boolean;
-  logOutError: null | string;
+  logOutError: userError;
+  signUpLoading: boolean;
+  signUpDone: boolean;
+  signUpError: userError;
+  changeNicknameLoading: boolean;
+  changeNicknameDone: boolean;
+  changeNicknameError: userError;
   me: null | {
     id: number;
     nickname: string;
