@@ -33,7 +33,7 @@ interface IProps {
 }
 
 const AppLayout = ({ children }: IProps) => {
-  const { isLoggedIn } = useSelector((state: IState) => state.user);
+  const { me } = useSelector((state: IState) => state.user);
 
   return (
     <div>
@@ -60,7 +60,7 @@ const AppLayout = ({ children }: IProps) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {me ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

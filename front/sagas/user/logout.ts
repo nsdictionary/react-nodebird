@@ -1,4 +1,4 @@
-import { put, takeLatest, call } from "redux-saga/effects";
+import { put, takeLatest, call, delay } from "redux-saga/effects";
 import {
   LOG_OUT_FAILURE,
   LOG_OUT_REQUEST,
@@ -12,7 +12,8 @@ function logOutAPI() {
 
 function* logOut() {
   try {
-    yield call(logOutAPI);
+    // yield call(logOutAPI);
+    yield delay(1000);
     yield put({
       type: LOG_OUT_SUCCESS,
     });

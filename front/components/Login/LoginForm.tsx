@@ -2,9 +2,10 @@ import React from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { loginAction } from "../../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { loginRequestAction } from "../../reducers/user";
 import { useForm, Controller } from "react-hook-form";
+import { IState } from "../../reducers";
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
@@ -25,6 +26,7 @@ interface ILoginForm {
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const { logInLoading } = useSelector((state: IState) => state.user);
   const { errors, getValues, handleSubmit, control } = useForm<ILoginForm>({
     mode: "onSubmit",
   });
@@ -32,7 +34,7 @@ const LoginForm = () => {
   const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     const { email, password } = getValues();
     console.log(email, password);
-    dispatch(loginAction({ email, password }));
+    dispatch(loginRequestAction({ email, password }));
   };
 
   return (
@@ -87,7 +89,7 @@ const LoginForm = () => {
         )}
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={logInLoading}>
           Login
         </Button>
         <Link href="/signup">
