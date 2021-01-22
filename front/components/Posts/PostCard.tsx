@@ -31,7 +31,6 @@ const PostCard = ({ post }: IProps) => {
   const id = useSelector((state: IState) => state.user.me?.id);
   const { removePostLoading } = useSelector((state: IState) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-
   const [liked, setLiked] = useState(false);
 
   const onToggleLike = useCallback(() => {

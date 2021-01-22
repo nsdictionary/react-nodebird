@@ -8,8 +8,16 @@ import createReducer from "../util/createReducer";
 import { ILogInState, useLogInHandler } from "../sagas/user/login";
 import { ILogOutState, useLogOutHandler } from "../sagas/user/logout";
 import { ISignUpState, useSignUpHandler } from "../sagas/user/signUp";
+import { IFollowState, useFollowHandler } from "../sagas/user/follow";
+import { IUnfollowState, useUnfollowHandler } from "../sagas/user/unfollow";
 
-const handlers = [useLogOutHandler(), useLogInHandler(), useSignUpHandler()];
+const handlers = [
+  useLogOutHandler(),
+  useLogInHandler(),
+  useSignUpHandler(),
+  useFollowHandler(),
+  useUnfollowHandler(),
+];
 
 export const initialState = {
   ...handlers
@@ -24,14 +32,22 @@ export const initialState = {
   loginData: {},
 };
 
-export interface IUserState extends ILogInState, ILogOutState, ISignUpState {
+// TODO: Fix id type to number after integrate DB
+type idType = number | string;
+
+export interface IUserState
+  extends ILogInState,
+    ILogOutState,
+    ISignUpState,
+    IFollowState,
+    IUnfollowState {
   me: null | {
-    id: number;
+    id: idType;
     nickname: string;
     email: string;
-    Posts: { id: number | string }[];
-    Followings: { nickname: string }[];
-    Followers: { nickname: string }[];
+    Posts: { id: idType }[];
+    Followings: { id: idType; nickname?: string }[];
+    Followers: { id: idType; nickname?: string }[];
   };
   signUpData: any;
   loginData: any;

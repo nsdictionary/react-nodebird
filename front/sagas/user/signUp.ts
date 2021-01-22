@@ -1,9 +1,6 @@
 import { put, takeLatest, call, delay } from "redux-saga/effects";
 import axios from "axios";
 import {
-  LOG_IN_FAILURE,
-  LOG_IN_REQUEST,
-  LOG_IN_SUCCESS,
   SIGN_UP_FAILURE,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
