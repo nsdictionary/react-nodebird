@@ -30,7 +30,7 @@ const PostFrom = () => {
   );
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost({ text }));
+    dispatch(addPost(text));
   }, [text]);
 
   return (
