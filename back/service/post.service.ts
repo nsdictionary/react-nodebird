@@ -1,11 +1,27 @@
 import db from "../models";
 
-const { User, Post, Image, Comment } = db.sequelize.models;
+const { User, Post, Image, Comment, Hashtag } = db.sequelize.models;
 
 class PostService {
-  private static _post;
-  static get post() {
-    return PostService._post;
+  async createPost(UserId: number, content: string) {
+    return await Post.create({
+      content,
+      UserId,
+    });
+  }
+
+  async createHashtags(hashtags: string[]) {
+    return await Promise.all(
+      hashtags.map((tag: string) =>
+        Hashtag.findOrCreate({
+          where: { name: tag.slice(1).toLowerCase() },
+        })
+      )
+    ); // [[노드, true], [리액트, true]]
+  }
+
+  async createImage(image: string) {
+    return await Image.create({ src: image });
   }
 
   async getFullPost(id: number) {
@@ -40,6 +56,26 @@ class PostService {
   async getPostById(id: number) {
     return await Post.findOne({
       where: { id },
+    });
+  }
+
+  async createComment(UserId, PostId, content) {
+    return await Comment.create({
+      content,
+      PostId,
+      UserId,
+    });
+  }
+
+  async getFullComment(commentId: number) {
+    return await Comment.findOne({
+      where: { id: commentId },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "nickname"],
+        },
+      ],
     });
   }
 }
