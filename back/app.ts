@@ -6,8 +6,9 @@ import * as cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
 import db from "./models";
 
-const app = express();
+const path = require("path");
 const passportConfig = require("./passport");
+const app = express();
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/", express.static(path.join(__dirname, "uploads")));
 
 app.get("/", (req, res) => {
   res.send("hello express");

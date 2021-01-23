@@ -1,13 +1,14 @@
 import { Router } from "express";
 import * as express from "express";
-import * as bcrypt from "bcrypt";
 import * as passport from "passport";
+import UserService from "../service/user.service";
 import db from "../models";
 
 const router = Router();
 
 const { User, Post } = db.sequelize.models;
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
+const userService = new UserService();
 
 router.post(
   "/",
@@ -26,12 +27,7 @@ router.post(
       if (exUser) {
         return res.status(403).send("이미 사용 중인 아이디입니다.");
       }
-      const hashedPassword = await bcrypt.hash(req.body.password, 12);
-      await User.create({
-        email: req.body.email,
-        nickname: req.body.nickname,
-        password: hashedPassword,
-      });
+      const user = await userService.register(req.body);
       res.status(201).send("ok");
     } catch (error) {
       console.error(error);
@@ -57,28 +53,8 @@ router.post(
           console.error(loginErr);
           return next(loginErr);
         }
-        const fullUserWithoutPassword = await User.findOne({
-          where: { id: user.id },
-          attributes: {
-            exclude: ["password"],
-          },
-          include: [
-            {
-              model: Post,
-              attributes: ["id"],
-            },
-            {
-              model: User,
-              as: "Followings",
-              attributes: ["id"],
-            },
-            {
-              model: User,
-              as: "Followers",
-              attributes: ["id"],
-            },
-          ],
-        });
+
+        const fullUserWithoutPassword = await userService.getUserById(user.id);
         return res.status(200).json(fullUserWithoutPassword);
       });
     })(req, res, next);
