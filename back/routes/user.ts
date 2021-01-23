@@ -10,7 +10,7 @@ const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 
 router.post(
   "/",
-  // isNotLoggedIn,
+  isNotLoggedIn,
   async (
     req: express.Request,
     res: express.Response,
@@ -41,7 +41,7 @@ router.post(
 
 router.post(
   "/login",
-  // isNotLoggedIn,
+  isNotLoggedIn,
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) {
@@ -86,7 +86,7 @@ router.post(
 
 router.post(
   "/logout",
-  // isLoggedIn,
+  isLoggedIn,
   (req: express.Request, res: express.Response) => {
     req.logout();
     req.session.destroy(null);

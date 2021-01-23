@@ -1,4 +1,10 @@
-exports.isLoggedIn = (req, res, next) => {
+import * as express from "express";
+
+exports.isLoggedIn = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
   if (req.isAuthenticated()) {
     next();
   } else {
@@ -6,7 +12,11 @@ exports.isLoggedIn = (req, res, next) => {
   }
 };
 
-exports.isNotLoggedIn = (req, res, next) => {
+exports.isNotLoggedIn = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
   if (!req.isAuthenticated()) {
     next();
   } else {
