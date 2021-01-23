@@ -7,14 +7,15 @@ import {
 } from "../../store/constants";
 import { IUserState } from "../../reducers/user";
 
-function signUpAPI() {
-  return axios.post("/api/signUp");
+function signUpAPI(data) {
+  return axios.post("http://localhost:3065/user", data);
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
-    // const result = yield call(signUpAPI);
-    yield delay(1000);
+    const result = yield call(signUpAPI, action.data);
+    console.log(result);
+    // yield delay(1000);
     yield put({
       type: SIGN_UP_SUCCESS,
     });

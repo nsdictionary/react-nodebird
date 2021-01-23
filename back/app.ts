@@ -1,5 +1,7 @@
 import * as express from "express";
 import * as cors from "cors";
+import * as passport from "passport";
+
 const db = require("./models");
 const app = express();
 
@@ -16,6 +18,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
   res.send("hello express");

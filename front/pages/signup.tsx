@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AppLayout from "../components/Common/AppLayout";
 import Head from "next/head";
 import { Button, Checkbox, Form, Input } from "antd";
@@ -7,6 +7,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { SIGN_UP_REQUEST } from "../store/constants";
 import { IState } from "../reducers";
+import { useRouter } from "next/router";
 
 const FormError = styled.div`
   color: red;
@@ -22,7 +23,10 @@ interface ISignupForm {
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state: IState) => state.user);
+  const router = useRouter();
+  const { signUpLoading, signUpDone, signUpError } = useSelector(
+    (state: IState) => state.user
+  );
   const {
     errors,
     watch,
@@ -46,6 +50,14 @@ const Signup = () => {
     console.log(email, nickname, password);
   };
 
+  useEffect(() => {
+    if (signUpDone) {
+      router.push("/");
+    } else if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpDone, signUpError]);
+
   return (
     <AppLayout>
       <Head>
@@ -56,7 +68,7 @@ const Signup = () => {
           <label htmlFor="signup_email">Email</label>
           <br />
           <Controller
-            name="mail"
+            name="email"
             control={control}
             defaultValue=""
             render={({ onChange, value }) => (
