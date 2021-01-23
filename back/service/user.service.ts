@@ -21,7 +21,7 @@ class UserService {
     });
   }
 
-  async getUserById(id: number) {
+  async getFullUserData(id: number) {
     return await User.findOne({
       where: { id },
       attributes: {

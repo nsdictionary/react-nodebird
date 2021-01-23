@@ -47,7 +47,9 @@ router.post(
           return next(loginErr);
         }
 
-        const fullUserWithoutPassword = await userService.getUserById(user.id);
+        const fullUserWithoutPassword = await userService.getFullUserData(
+          user.id
+        );
         return res.status(200).json(fullUserWithoutPassword);
       });
     })(req, res, next);

@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as express from "express";
 import * as multer from "multer";
 import db from "../models";
+import PostService from "../service/post.service";
 
 const path = require("path");
 const fs = require("fs");
@@ -9,6 +10,7 @@ const router = Router();
 
 const { Post, Image, Comment, User, Hashtag } = db.sequelize.models;
 const { isLoggedIn } = require("./middlewares");
+const postService = new PostService();
 
 try {
   fs.accessSync("uploads");
@@ -32,14 +34,11 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
 });
 
-interface IRequest extends express.Request {
-  user: any;
-}
 router.post(
   "/",
   isLoggedIn,
   upload.none(),
-  async (req: IRequest, res: express.Response, next: express.NextFunction) => {
+  async (req: any, res: express.Response, next: express.NextFunction) => {
     try {
       const hashtags = req.body.content.match(/#[^\s#]+/g);
       const post = await Post.create({
@@ -69,32 +68,7 @@ router.post(
           await post.addImages(image);
         }
       }
-      const fullPost = await Post.findOne({
-        where: { id: post.id },
-        include: [
-          {
-            model: Image,
-          },
-          {
-            model: Comment,
-            include: [
-              {
-                model: User, // 댓글 작성자
-                attributes: ["id", "nickname"],
-              },
-            ],
-          },
-          {
-            model: User, // 게시글 작성자
-            attributes: ["id", "nickname"],
-          },
-          {
-            model: User, // 좋아요 누른 사람
-            as: "Likers",
-            attributes: ["id"],
-          },
-        ],
-      });
+      const fullPost = await postService.getFullPost(post.id);
       res.status(201).json(fullPost);
     } catch (error) {
       console.error(error);
@@ -106,11 +80,9 @@ router.post(
 router.post(
   "/:postId/comment",
   isLoggedIn,
-  async (req: IRequest, res: express.Response, next: express.NextFunction) => {
+  async (req: any, res: express.Response, next: express.NextFunction) => {
     try {
-      const post = await Post.findOne({
-        where: { id: req.params.postId },
-      });
+      const post = await postService.getPostById(req.params.postId);
       if (!post) {
         return res.status(403).send("존재하지 않는 게시글입니다.");
       }
