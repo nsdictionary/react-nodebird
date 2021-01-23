@@ -1,10 +1,15 @@
 import * as express from "express";
 import * as cors from "cors";
 import * as passport from "passport";
+import * as session from "express-session";
+import * as cookieParser from "cookie-parser";
+import * as dotenv from "dotenv";
 
 const db = require("./models");
 const app = express();
 const passportConfig = require("./passport");
+
+dotenv.config();
 
 db.sequelize
   .sync()
@@ -21,9 +26,18 @@ app.use(
 );
 
 passportConfig();
-app.use(passport.initialize());
+app.use(
+  session({
+    saveUninitialized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.send("hello express");
