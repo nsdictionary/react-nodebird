@@ -32,19 +32,14 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
 });
 
-interface ICreatePostRequest extends express.Request {
+interface IRequest extends express.Request {
   user: any;
 }
 router.post(
   "/",
   isLoggedIn,
   upload.none(),
-  async (
-    req: ICreatePostRequest,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    // POST /post
+  async (req: IRequest, res: express.Response, next: express.NextFunction) => {
     try {
       const hashtags = req.body.content.match(/#[^\s#]+/g);
       const post = await Post.create({
@@ -101,6 +96,39 @@ router.post(
         ],
       });
       res.status(201).json(fullPost);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/:postId/comment",
+  isLoggedIn,
+  async (req: IRequest, res: express.Response, next: express.NextFunction) => {
+    try {
+      const post = await Post.findOne({
+        where: { id: req.params.postId },
+      });
+      if (!post) {
+        return res.status(403).send("존재하지 않는 게시글입니다.");
+      }
+      const comment = await Comment.create({
+        content: req.body.content,
+        PostId: parseInt(req.params.postId, 10),
+        UserId: req.user.id,
+      });
+      const fullComment = await Comment.findOne({
+        where: { id: comment.id },
+        include: [
+          {
+            model: User,
+            attributes: ["id", "nickname"],
+          },
+        ],
+      });
+      res.status(201).json(fullComment);
     } catch (error) {
       console.error(error);
       next(error);

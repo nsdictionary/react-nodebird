@@ -9,16 +9,15 @@ import { IPostState } from "../../reducers/post";
 import shortId from "shortid";
 
 function addCommentAPI(data) {
-  return axios.post(`/api/post/${data.postId}/comment`, data);
+  return axios.post(`/post/${data.postId}/comment`, data);
 }
 
 function* addComment(action) {
   try {
-    // const result = yield call(addCommentAPI, action.data);
-    yield delay(1000);
+    const result = yield call(addCommentAPI, action.data);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -56,8 +55,8 @@ const actions = {
     state.addCommentError = null;
   },
   [ADD_COMMENT_SUCCESS]: (state: IPostState, action) => {
-    const post = state.mainPosts.find((v) => v.id === action.data.postId);
-    post.Comments.unshift(dummyComment(action.data.content));
+    const post = state.mainPosts.find((v) => v.id === action.data.PostId);
+    post.Comments.unshift(action.data.content);
     state.addCommentLoading = false;
     state.addCommentDone = true;
   },

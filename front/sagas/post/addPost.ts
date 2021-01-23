@@ -15,21 +15,15 @@ function addPostAPI(data) {
 
 function* addPost(action) {
   try {
-    // const result = yield call(addPostAPI, action.data);
-    delay(1000);
+    const result = yield call(addPostAPI, action.data);
     const id = shortId.generate();
     yield put({
       type: ADD_POST_SUCCESS,
-      // data: result.data,
-      data: {
-        id,
-        content: action.data,
-      },
+      data: result.data,
     });
     yield put({
       type: ADD_POST_TO_ME,
-      // data: result.data.id,
-      data: id,
+      data: result.data.id,
     });
   } catch (err) {
     console.error(err);
@@ -72,7 +66,8 @@ const actions = {
   [ADD_POST_SUCCESS]: (state: IPostState, action) => {
     state.addPostLoading = false;
     state.addPostDone = true;
-    state.mainPosts.unshift(dummyPost(action.data));
+    state.mainPosts.unshift(action.data);
+    state.imagePaths = [];
   },
   [ADD_POST_FAILURE]: (state: IPostState, action) => {
     state.addPostLoading = false;

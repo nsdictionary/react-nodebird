@@ -90,16 +90,6 @@ export const generateDummyPost = (number: number): IPost[] =>
       ],
     }));
 
-export const addPost = (data) => ({
-  type: ADD_POST_REQUEST,
-  data,
-});
-
-export const addComment = (data) => ({
-  type: ADD_COMMENT_REQUEST,
-  data,
-});
-
 const reducer = createReducer(initialState, {
   ...handlers
     .map((v) => {

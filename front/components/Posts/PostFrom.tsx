@@ -3,6 +3,7 @@ import { Form, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../reducers";
 import { addPost } from "../../reducers/post";
+import { ADD_POST_REQUEST } from "../../store/constants";
 
 const PostFrom = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,19 @@ const PostFrom = () => {
   );
 
   const onSubmit = useCallback(() => {
-    dispatch(addPost(text));
+    if (!text || !text.trim()) {
+      return alert("게시글을 작성하세요.");
+    }
+    const formData = new FormData();
+    imagePaths.forEach((p) => {
+      formData.append("image", p);
+    });
+    formData.append("content", text);
+
+    return dispatch({
+      type: ADD_POST_REQUEST,
+      data: formData,
+    });
   }, [text]);
 
   return (
