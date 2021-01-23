@@ -112,4 +112,5 @@ node_modules
 .next
 dist
 *.paw
+uploads
 
