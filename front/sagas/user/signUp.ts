@@ -8,7 +8,7 @@ import {
 import { IUserState } from "../../reducers/user";
 
 function signUpAPI(data) {
-  return axios.post("http://localhost:3065/user", data);
+  return axios.post("/user", data);
 }
 
 function* signUp(action) {

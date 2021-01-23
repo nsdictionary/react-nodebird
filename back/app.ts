@@ -4,6 +4,7 @@ import * as passport from "passport";
 
 const db = require("./models");
 const app = express();
+const passportConfig = require("./passport");
 
 db.sequelize
   .sync()
@@ -18,6 +19,9 @@ app.use(
     credentials: true,
   })
 );
+
+passportConfig();
+app.use(passport.initialize());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
