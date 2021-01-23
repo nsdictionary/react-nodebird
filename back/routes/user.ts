@@ -2,10 +2,11 @@ import { Router } from "express";
 import * as express from "express";
 import * as bcrypt from "bcrypt";
 import * as passport from "passport";
+import db from "../models";
 
 const router = Router();
 
-const { User, Post } = require("../models");
+const { User, Post } = db.sequelize.models;
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 
 router.post(

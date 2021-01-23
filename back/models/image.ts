@@ -1,6 +1,6 @@
 import { DataType, Model } from "sequelize-typescript";
 
-module.exports = class Image extends Model {
+class Image extends Model {
   static init(sequelize) {
     return super.init(
       {
@@ -21,4 +21,6 @@ module.exports = class Image extends Model {
   static associate(db) {
     db.Image.belongsTo(db.Post);
   }
-};
+}
+
+export default Image;

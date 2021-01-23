@@ -4,8 +4,8 @@ import * as passport from "passport";
 import * as session from "express-session";
 import * as cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
+import db from "./models";
 
-const db = require("./models");
 const app = express();
 const passportConfig = require("./passport");
 

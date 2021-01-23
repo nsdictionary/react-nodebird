@@ -1,9 +1,11 @@
 import * as passport from "passport";
 import * as bcrypt from "bcrypt";
-const { Strategy: LocalStrategy } = require("passport-local");
-const { User } = require("../models");
+import db from "../models";
 
-module.exports = () => {
+const { Strategy: LocalStrategy } = require("passport-local");
+const { User } = db.sequelize.models;
+
+const local = () => {
   passport.use(
     new LocalStrategy(
       {
@@ -31,3 +33,5 @@ module.exports = () => {
     )
   );
 };
+
+export default local;

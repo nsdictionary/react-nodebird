@@ -1,6 +1,6 @@
 import { DataType, Model } from "sequelize-typescript";
 
-module.exports = class Hashtag extends Model {
+class Hashtag extends Model {
   static init(sequelize) {
     return super.init(
       {
@@ -21,4 +21,6 @@ module.exports = class Hashtag extends Model {
   static associate(db) {
     db.Hashtag.belongsToMany(db.Post, { through: "PostHashtag" });
   }
-};
+}
+
+export default Hashtag;

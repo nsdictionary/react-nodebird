@@ -1,7 +1,18 @@
 import { Sequelize } from "sequelize-typescript";
+import Comment from "./comment";
+import Hashtag from "./hashtag";
+import Image from "./image";
+import Post from "./post";
+import User from "./user";
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config")[env];
-const db: any = {};
+const db: any = {
+  Comment: Comment,
+  Hashtag: Hashtag,
+  Image: Image,
+  Post: Post,
+  User: User,
+};
 
 const sequelize = new Sequelize(
   config.database,
@@ -9,12 +20,6 @@ const sequelize = new Sequelize(
   config.password,
   config
 );
-
-db.Comment = require("./comment");
-db.Hashtag = require("./hashtag");
-db.Image = require("./image");
-db.Post = require("./post");
-db.User = require("./user");
 
 Object.keys(db).forEach((modelName) => {
   db[modelName].init(sequelize);
@@ -29,4 +34,5 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export const models = db.sequelize.models;
+export default db;

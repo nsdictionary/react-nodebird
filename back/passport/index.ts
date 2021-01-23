@@ -1,6 +1,8 @@
 import * as passport from "passport";
-const local = require("./local");
-const { User } = require("../models");
+import db from "../models";
+import local from "./local";
+
+const { User } = db.sequelize.models;
 
 module.exports = () => {
   passport.serializeUser((user: any, done) => {

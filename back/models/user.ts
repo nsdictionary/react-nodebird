@@ -1,6 +1,6 @@
 import { DataType, Model } from "sequelize-typescript";
 
-module.exports = class User extends Model {
+class User extends Model {
   static init(sequelize) {
     return super.init(
       {
@@ -42,4 +42,6 @@ module.exports = class User extends Model {
       foreignKey: "FollowerId",
     });
   }
-};
+}
+
+export default User;

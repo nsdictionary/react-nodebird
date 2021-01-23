@@ -1,6 +1,6 @@
 import { DataType, Model } from "sequelize-typescript";
 
-module.exports = class Post extends Model {
+class Post extends Model {
   static init(sequelize) {
     return super.init(
       {
@@ -27,4 +27,6 @@ module.exports = class Post extends Model {
     db.Post.belongsToMany(db.User, { through: "Like", as: "Likers" }); // post.addLikers, post.removeLikers
     db.Post.belongsTo(db.Post, { as: "Retweet" }); // post.addRetweet
   }
-};
+}
+
+export default Post;
