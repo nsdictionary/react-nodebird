@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import Link from "next/link";
 import styled from "styled-components";
@@ -26,10 +26,18 @@ interface ILoginForm {
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { logInLoading } = useSelector((state: IState) => state.user);
+  const { logInLoading, logInError } = useSelector(
+    (state: IState) => state.user
+  );
   const { errors, getValues, handleSubmit, control } = useForm<ILoginForm>({
     mode: "onSubmit",
   });
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
 
   const onSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     const { email, password } = getValues();

@@ -24,7 +24,7 @@ interface ISignupForm {
 const Signup = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { signUpLoading, signUpDone, signUpError } = useSelector(
+  const { signUpLoading, signUpDone, signUpError, me } = useSelector(
     (state: IState) => state.user
   );
   const {
@@ -51,8 +51,14 @@ const Signup = () => {
   };
 
   useEffect(() => {
+    if (me && me.id) {
+      router.replace("/");
+    }
+  }, [me && me.id]);
+
+  useEffect(() => {
     if (signUpDone) {
-      router.push("/");
+      router.replace("/");
     } else if (signUpError) {
       alert(signUpError);
     }

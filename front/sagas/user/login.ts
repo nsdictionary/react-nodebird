@@ -64,7 +64,8 @@ const actions = {
   },
   [LOG_IN_SUCCESS]: (state: IUserState, action) => {
     state.logInLoading = false;
-    state.me = dummyUser(action.data);
+    // state.me = dummyUser(action.data);
+    state.me = action.data;
     state.logInDone = true;
   },
   [LOG_IN_FAILURE]: (state: IUserState, action) => {
