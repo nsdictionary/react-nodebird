@@ -2,11 +2,8 @@ import { Router } from "express";
 import * as express from "express";
 import * as passport from "passport";
 import UserService from "../service/user.service";
-import db from "../models";
 
 const router = Router();
-
-const { User, Post } = db.sequelize.models;
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const userService = new UserService();
 
@@ -19,11 +16,7 @@ router.post(
     next: express.NextFunction
   ) => {
     try {
-      const exUser = await User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
+      const exUser = await userService.getUserByEmail(req.body.email);
       if (exUser) {
         return res.status(403).send("이미 사용 중인 아이디입니다.");
       }

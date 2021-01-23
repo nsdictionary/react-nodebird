@@ -45,6 +45,12 @@ class UserService {
       ],
     });
   }
+
+  async getUserByEmail(email: string) {
+    return await User.findOne({
+      where: { email },
+    });
+  }
 }
 
 export default UserService;

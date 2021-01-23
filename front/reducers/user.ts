@@ -46,8 +46,8 @@ export interface IUserState
     nickname: string;
     email: string;
     Posts: { id: idType }[];
-    Followings: { id: idType; nickname?: string }[];
-    Followers: { id: idType; nickname?: string }[];
+    Followings: { id: idType; nickname: string }[];
+    Followers: { id: idType; nickname: string }[];
   };
   signUpData: any;
   loginData: any;

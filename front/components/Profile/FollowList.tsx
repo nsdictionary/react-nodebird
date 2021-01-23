@@ -3,6 +3,7 @@ import { Button, Card, List } from "antd";
 import { StopOutlined } from "@ant-design/icons";
 
 interface IFollow {
+  id: number | string;
   nickname: string;
 }
 
