@@ -5,7 +5,7 @@ import PostFrom from "../components/Posts/PostFrom";
 import PostCard from "../components/Posts/PostCard";
 import { IState } from "../reducers";
 import { IPost } from "../reducers/post";
-import { LOAD_POSTS_REQUEST } from "../store/constants";
+import { LOAD_MY_INFO_REQUEST, LOAD_POSTS_REQUEST } from "../store/constants";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,9 @@ const Home = () => {
   );
 
   useEffect(() => {
+    dispatch({
+      type: LOAD_MY_INFO_REQUEST,
+    });
     dispatch({
       type: LOAD_POSTS_REQUEST,
     });

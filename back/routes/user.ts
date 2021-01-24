@@ -7,6 +7,25 @@ const router = Router();
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const userService = new UserService();
 
+router.get(
+  "/",
+  async (req: any, res: express.Response, next: express.NextFunction) => {
+    try {
+      if (req.user) {
+        const fullUserWithoutPassword = await userService.getFullUserData(
+          req.user.id
+        );
+        res.status(200).json(fullUserWithoutPassword);
+      } else {
+        res.status(200).json(null);
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
 router.post(
   "/",
   isNotLoggedIn,

@@ -10,6 +10,10 @@ import { ILogOutState, useLogOutHandler } from "../sagas/user/logout";
 import { ISignUpState, useSignUpHandler } from "../sagas/user/signUp";
 import { IFollowState, useFollowHandler } from "../sagas/user/follow";
 import { IUnfollowState, useUnfollowHandler } from "../sagas/user/unfollow";
+import {
+  ILoadMyInfoState,
+  useLoadMyInfoHandler,
+} from "../sagas/user/loadMyInfo";
 
 const handlers = [
   useLogOutHandler(),
@@ -17,6 +21,7 @@ const handlers = [
   useSignUpHandler(),
   useFollowHandler(),
   useUnfollowHandler(),
+  useLoadMyInfoHandler(),
 ];
 
 export const initialState = {
@@ -40,7 +45,8 @@ export interface IUserState
     ILogOutState,
     ISignUpState,
     IFollowState,
-    IUnfollowState {
+    IUnfollowState,
+    ILoadMyInfoState {
   me: null | {
     id: idType;
     nickname: string;

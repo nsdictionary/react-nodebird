@@ -21,7 +21,7 @@ function* addPost(action) {
     });
     yield put({
       type: ADD_POST_TO_ME,
-      data: result.data.id,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
