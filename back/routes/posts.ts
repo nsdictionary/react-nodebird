@@ -21,7 +21,10 @@ router.get(
       const posts = await Post.findAll({
         where,
         limit: 10,
-        order: [["createdAt", "DESC"]],
+        order: [
+          ["createdAt", "DESC"],
+          [Comment, "createdAt", "DESC"],
+        ],
         include: [
           {
             model: User,
