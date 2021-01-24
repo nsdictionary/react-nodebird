@@ -9,16 +9,15 @@ import {
 import { IPostState } from "../../reducers/post";
 
 function removePostAPI(data) {
-  return axios.delete("/api/post", data);
+  return axios.delete(`/post/${data}`);
 }
 
 function* removePost(action) {
   try {
-    // const result = yield call(removePostAPI, action.data);
-    yield delay(1000);
+    const result = yield call(removePostAPI, action.data);
     yield put({
       type: REMOVE_POST_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
     yield put({
       type: REMOVE_POST_OF_ME,
@@ -54,7 +53,9 @@ const actions = {
   [REMOVE_POST_SUCCESS]: (state: IPostState, action) => {
     state.removePostLoading = false;
     state.removePostDone = true;
-    state.mainPosts = state.mainPosts.filter((v) => v.id !== action.data);
+    state.mainPosts = state.mainPosts.filter(
+      (v) => v.id !== action.data.PostId
+    );
   },
   [REMOVE_POST_FAILURE]: (state: IPostState, action) => {
     state.removePostLoading = false;

@@ -56,7 +56,7 @@ const actions = {
   },
   [ADD_COMMENT_SUCCESS]: (state: IPostState, action) => {
     const post = state.mainPosts.find((v) => v.id === action.data.PostId);
-    post.Comments.unshift(action.data.content);
+    post.Comments.unshift(action.data);
     state.addCommentLoading = false;
     state.addCommentDone = true;
   },

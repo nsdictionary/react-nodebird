@@ -77,7 +77,7 @@ const reducer = createReducer(initialState, {
       return { ...acc, ...cur };
     }),
   [ADD_POST_TO_ME]: (state, action) => {
-    state.me.Posts.unshift({ id: action.data });
+    state.me.Posts.unshift({ id: action.data.id });
   },
   [REMOVE_POST_OF_ME]: (state, action) => {
     state.me.Posts = state.me.Posts.filter((v) => v.id !== action.data);
