@@ -1,9 +1,11 @@
 import { Router } from "express";
 import * as express from "express";
 import * as passport from "passport";
+import db from "../models";
 import UserService from "../service/user.service";
 
 const router = Router();
+const { Post, Image, Comment, User, Hashtag } = db.sequelize.models;
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const userService = new UserService();
 
@@ -82,6 +84,27 @@ router.post(
     req.logout();
     req.session.destroy(null);
     res.send("ok");
+  }
+);
+
+router.patch(
+  "/nickname",
+  isLoggedIn,
+  async (req: any, res: express.Response, next: express.NextFunction) => {
+    try {
+      await User.update(
+        {
+          nickname: req.body.nickname,
+        },
+        {
+          where: { id: req.user.id },
+        }
+      );
+      res.status(200).json({ nickname: req.body.nickname });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
 );
 

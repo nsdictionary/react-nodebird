@@ -1,6 +1,5 @@
 import shortId from "shortid";
 import faker from "faker";
-import { ADD_COMMENT_REQUEST, ADD_POST_REQUEST } from "../store/constants";
 import createReducer from "../util/createReducer";
 import {
   IAddCommentState,
