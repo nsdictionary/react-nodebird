@@ -6,7 +6,6 @@ import {
   ADD_POST_TO_ME,
 } from "../../store/constants";
 import axios from "axios";
-import shortId from "shortid";
 import { IPostState } from "../../reducers/post";
 
 function addPostAPI(data) {
@@ -16,7 +15,6 @@ function addPostAPI(data) {
 function* addPost(action) {
   try {
     const result = yield call(addPostAPI, action.data);
-    const id = shortId.generate();
     yield put({
       type: ADD_POST_SUCCESS,
       data: result.data,
