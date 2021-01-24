@@ -8,6 +8,7 @@ interface IProps {
 
 const PostImages = ({ images }: IProps) => {
   const [showImagesZoom, setShowImagesZoom] = useState<boolean>(false);
+  const imgUri = (src: string) => `http://localhost:3065/${src}`;
 
   const onZoom = useCallback(() => {
     setShowImagesZoom(true);
@@ -22,8 +23,8 @@ const PostImages = ({ images }: IProps) => {
       <>
         <img
           role="presentation"
-          src={images[0].src}
-          alt={images[0].src}
+          src={imgUri(images[0].src)}
+          alt={imgUri(images[0].src)}
           onClick={onZoom}
         />
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
@@ -36,15 +37,15 @@ const PostImages = ({ images }: IProps) => {
         <div>
           <img
             role="presentation"
-            src={images[0].src}
-            alt={images[0].src}
+            src={imgUri(images[0].src)}
+            alt={imgUri(images[0].src)}
             width="50%"
             onClick={onZoom}
           />
           <img
             role="presentation"
-            src={images[1].src}
-            alt={images[1].src}
+            src={imgUri(images[1].src)}
+            alt={imgUri(images[1].src)}
             width="50%"
             onClick={onZoom}
           />
@@ -58,8 +59,8 @@ const PostImages = ({ images }: IProps) => {
       <div>
         <img
           role="presentation"
-          src={images[0].src}
-          alt={images[0].src}
+          src={imgUri(images[0].src)}
+          alt={imgUri(images[0].src)}
           width="50%"
           onClick={onZoom}
         />

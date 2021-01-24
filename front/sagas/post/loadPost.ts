@@ -7,17 +7,17 @@ import {
 } from "../../store/constants";
 import { generateDummyPost, IPostState } from "../../reducers/post";
 
-function loadPostsAPI(data) {
-  return axios.get("/api/posts", data);
+function loadPostsAPI(lastId) {
+  return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 
 function* loadPosts(action) {
   try {
-    // const result = yield call(loadPostsAPI, action.data);
-    yield delay(1000);
+    const result = yield call(loadPostsAPI, action.data);
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: generateDummyPost(10),
+      data: result.data,
+      // data: generateDummyPost(10),
     });
   } catch (err) {
     console.error(err);
@@ -49,8 +49,10 @@ const actions = {
   [LOAD_POSTS_SUCCESS]: (state: IPostState, action) => {
     state.loadPostsLoading = false;
     state.loadPostsDone = true;
-    state.mainPosts = action.data.concat(state.mainPosts);
-    state.hasMorePosts = state.mainPosts.length < 50;
+    state.mainPosts = state.mainPosts.concat(action.data);
+    state.hasMorePosts = action.data.length === 10;
+    // state.mainPosts = action.data.concat(state.mainPosts);
+    // state.hasMorePosts = state.mainPosts.length < 50;
   },
   [LOAD_POSTS_FAILURE]: (state: IPostState, action) => {
     state.loadPostsLoading = false;

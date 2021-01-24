@@ -47,6 +47,7 @@ app.get("/", (req, res) => {
 
 app.use("/user", require("./routes/user"));
 app.use("/post", require("./routes/post"));
+app.use("/posts", require("./routes/posts"));
 
 app.listen(3065, () => {
   console.log("서버 실행 중!");
