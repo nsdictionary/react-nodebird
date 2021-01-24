@@ -16,7 +16,11 @@ import PostImages from "./PostImages";
 import FollowButton from "./FollowButton";
 import PostCardContent from "./PostCardContent";
 import CommentForm from "./CommentForm";
-import { REMOVE_POST_REQUEST } from "../../store/constants";
+import {
+  LIKE_POST_REQUEST,
+  REMOVE_POST_REQUEST,
+  UNLIKE_POST_REQUEST,
+} from "../../store/constants";
 
 interface IProps {
   post: IPost;
@@ -31,11 +35,26 @@ const PostCard = ({ post }: IProps) => {
   const id = useSelector((state: IState) => state.user.me?.id);
   const { removePostLoading } = useSelector((state: IState) => state.post);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-  const [liked, setLiked] = useState(false);
 
-  const onToggleLike = useCallback(() => {
-    setLiked((prev) => !prev);
-  }, []);
+  const onLike = useCallback(() => {
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({
+      type: LIKE_POST_REQUEST,
+      data: post.id,
+    });
+  }, [id]);
+
+  const onUnlike = useCallback(() => {
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({
+      type: UNLIKE_POST_REQUEST,
+      data: post.id,
+    });
+  }, [id]);
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
@@ -48,6 +67,7 @@ const PostCard = ({ post }: IProps) => {
     });
   }, []);
 
+  const liked = post.Likers.find((v) => v.id === id);
   return (
     <CardWrapper key={post.id}>
       <Card
@@ -58,10 +78,10 @@ const PostCard = ({ post }: IProps) => {
             <HeartTwoTone
               twoToneColor="#eb2f96"
               key="heart"
-              onClick={onToggleLike}
+              onClick={onUnlike}
             />
           ) : (
-            <HeartOutlined key="heart" onClick={onToggleLike} />
+            <HeartOutlined key="heart" onClick={onLike} />
           ),
           <MessageOutlined key="message" onClick={onToggleComment} />,
           <Popover

@@ -109,7 +109,7 @@ router.patch(
   async (req: any, res: express.Response, next: express.NextFunction) => {
     // PATCH /post/1/like
     try {
-      const post = await Post.findOne({ where: { id: req.params.postId } });
+      const post = await postService.getPostById(req.params.postId);
       if (!post) {
         return res.status(403).send("게시글이 존재하지 않습니다.");
       }
@@ -128,7 +128,7 @@ router.delete(
   async (req: any, res: express.Response, next: express.NextFunction) => {
     // DELETE /post/1/like
     try {
-      const post = await Post.findOne({ where: { id: req.params.postId } });
+      const post = await postService.getPostById(req.params.postId);
       if (!post) {
         return res.status(403).send("게시글이 존재하지 않습니다.");
       }

@@ -12,12 +12,19 @@ import {
   useRemovePostHandler,
 } from "../sagas/post/removePost";
 import { ILoadPostState, useLoadPostHandler } from "../sagas/post/loadPost";
+import { ILikePostState, useLikePostHandler } from "../sagas/post/likePost";
+import {
+  IUnLikePostState,
+  useUnLikePostHandler,
+} from "../sagas/post/unlikePost";
 
 const handlers = [
   useAddCommentHandler(),
   useAddPostHandler(),
   useRemovePostHandler(),
   useLoadPostHandler(),
+  useLikePostHandler(),
+  useUnLikePostHandler(),
 ];
 
 export const initialState = {
@@ -46,6 +53,7 @@ export interface IPost {
   content: string;
   User: User;
   Images: { src: string }[];
+  Likers: { id: idType }[];
   Comments: {
     id: idType;
     User: User;
@@ -57,7 +65,9 @@ export interface IPostState
   extends IAddPostState,
     IRemovePostState,
     IAddCommentState,
-    ILoadPostState {
+    ILoadPostState,
+    ILikePostState,
+    IUnLikePostState {
   mainPosts: IPost[];
   hasMorePosts: boolean;
   imagePaths: any;
@@ -73,6 +83,7 @@ export const generateDummyPost = (number: number): IPost[] =>
         nickname: faker.name.findName(),
       },
       content: faker.lorem.paragraph(),
+      Likers: [],
       Images: [
         {
           src: faker.image.image(),
