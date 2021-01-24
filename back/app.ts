@@ -4,6 +4,7 @@ import * as passport from "passport";
 import * as session from "express-session";
 import * as cookieParser from "cookie-parser";
 import * as dotenv from "dotenv";
+import * as morgan from "morgan";
 import db from "./models";
 
 const path = require("path");
@@ -34,6 +35,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
   })
 );
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
