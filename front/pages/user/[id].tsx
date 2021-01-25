@@ -33,9 +33,7 @@ const User = () => {
         if (hasMorePosts && !loadPostsLoading) {
           dispatch({
             type: LOAD_USER_POSTS_REQUEST,
-            lastId:
-              mainPosts[mainPosts.length - 1] &&
-              mainPosts[mainPosts.length - 1].id,
+            lastId: mainPosts[mainPosts.length - 1]?.id,
             data: id,
           });
         }
@@ -47,6 +45,9 @@ const User = () => {
     };
   }, [mainPosts.length, hasMorePosts, id]);
 
+  if (!userInfo) {
+    return "유저 정보 로딩중...";
+  }
   return (
     <AppLayout>
       <Head>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
@@ -7,6 +7,8 @@ import UserProfile from "../Login/UserProfile";
 import styled from "styled-components";
 import { IState } from "../../reducers";
 import { createGlobalStyle } from "styled-components";
+import useInput from "../../hooks/useInput";
+import { useRouter } from "next/router";
 
 // antd design bug fix (gutter)
 const Global = createGlobalStyle`
@@ -34,6 +36,12 @@ interface IProps {
 
 const AppLayout = ({ children }: IProps) => {
   const { me } = useSelector((state: IState) => state.user);
+  const [searchInput, onChangeSearchInput] = useInput("");
+  const router = useRouter();
+
+  const onSearch = useCallback(async () => {
+    await router.push(`/hashtag/${searchInput}`);
+  }, [searchInput]);
 
   return (
     <div>
@@ -50,7 +58,12 @@ const AppLayout = ({ children }: IProps) => {
           </Link>
         </Menu.Item>
         <Menu.Item>
-          <SearchInput enterButton />
+          <SearchInput
+            enterButton
+            value={searchInput}
+            onChange={onChangeSearchInput}
+            onSearch={onSearch}
+          />
         </Menu.Item>
         <Menu.Item>
           <Link href="/signup">
