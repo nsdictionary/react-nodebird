@@ -3,13 +3,27 @@ import AppLayout from "../components/Common/AppLayout";
 import Head from "next/head";
 import NicknameEditForm from "../components/Profile/NicknameEditForm";
 import FollowList from "../components/Profile/FollowList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../reducers";
 import { useRouter } from "next/router";
+import {
+  LOAD_FOLLOWERS_REQUEST,
+  LOAD_FOLLOWINGS_REQUEST,
+} from "../store/constants";
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const { me } = useSelector((state: IState) => state.user);
   const router = useRouter();
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_FOLLOWERS_REQUEST,
+    });
+    dispatch({
+      type: LOAD_FOLLOWINGS_REQUEST,
+    });
+  }, []);
 
   const loadMoreFollowings = useCallback(() => {
     return true;
@@ -35,13 +49,13 @@ const Profile = () => {
       </Head>
       <NicknameEditForm />
       <FollowList
-        header="following list"
+        header="팔로잉"
         data={me.Followings}
         onClickMore={loadMoreFollowings}
         loading={false}
       />
       <FollowList
-        header="follower list"
+        header="팔로워"
         data={me.Followers}
         onClickMore={loadMoreFollowers}
         loading={false}

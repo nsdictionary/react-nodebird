@@ -10,6 +10,9 @@ import watchLogOut from "./user/logout";
 import watchSignUp from "./user/signUp";
 import watchFollow from "./user/follow";
 import watchUnfollow from "./user/unfollow";
+import watchChangeNickname from "./user/changeNickname";
+import watchLoadFollowers from "./user/loadFollowers";
+import watchLoadFollowings from "./user/loadFollowings";
 import watchAddPost from "./post/addPost";
 import watchAddComment from "./post/addComment";
 import watchRemovePost from "./post/removePost";
@@ -25,6 +28,9 @@ export default function* rootSaga() {
     fork(watchSignUp),
     fork(watchFollow),
     fork(watchUnfollow),
+    fork(watchChangeNickname),
+    fork(watchLoadFollowers),
+    fork(watchLoadFollowings),
     fork(watchAddPost),
     fork(watchAddComment),
     fork(watchRemovePost),

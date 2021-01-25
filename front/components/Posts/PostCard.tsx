@@ -19,6 +19,7 @@ import CommentForm from "./CommentForm";
 import {
   LIKE_POST_REQUEST,
   REMOVE_POST_REQUEST,
+  RETWEET_REQUEST,
   UNLIKE_POST_REQUEST,
 } from "../../store/constants";
 
@@ -67,13 +68,23 @@ const PostCard = ({ post }: IProps) => {
     });
   }, []);
 
+  const onRetweet = useCallback(() => {
+    if (!id) {
+      return alert("로그인이 필요합니다.");
+    }
+    return dispatch({
+      type: RETWEET_REQUEST,
+      data: post.id,
+    });
+  }, [id]);
+
   const liked = post.Likers.find((v) => v.id === id);
   return (
     <CardWrapper key={post.id}>
       <Card
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
-          <RetweetOutlined key="retweet" />,
+          <RetweetOutlined key="retweet" onClick={onRetweet} />,
           liked ? (
             <HeartTwoTone
               twoToneColor="#eb2f96"

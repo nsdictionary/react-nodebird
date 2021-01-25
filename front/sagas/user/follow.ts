@@ -7,17 +7,16 @@ import {
 } from "../../store/constants";
 import { IUserState } from "../../reducers/user";
 
-function followAPI() {
-  return axios.post("/api/follow");
+function followAPI(data) {
+  return axios.patch(`/user/${data}/follow`);
 }
 
 function* follow(action) {
   try {
-    // const result = yield call(followAPI);
-    yield delay(1000);
+    const result = yield call(followAPI, action.data);
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -46,9 +45,15 @@ const actions = {
     state.followError = null;
     state.followDone = false;
   },
-  [FOLLOW_SUCCESS]: (state: IUserState, action: { data: number }) => {
+  [FOLLOW_SUCCESS]: (
+    state: IUserState,
+    action: { data: { UserId: number; nickname: string } }
+  ) => {
     state.followLoading = false;
-    state.me.Followings.push({ id: action.data });
+    state.me.Followings.push({
+      id: action.data.UserId,
+      nickname: action.data.nickname,
+    });
     state.followDone = true;
   },
   [FOLLOW_FAILURE]: (state: IUserState, action) => {

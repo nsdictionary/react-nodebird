@@ -7,17 +7,16 @@ import {
 } from "../../store/constants";
 import { IUserState } from "../../reducers/user";
 
-function unfollowAPI() {
-  return axios.post("/api/unfollow");
+function unfollowAPI(data) {
+  return axios.delete(`/user/${data}/follow`);
 }
 
 function* unfollow(action) {
   try {
-    // const result = yield call(unfollowAPI);
-    yield delay(1000);
+    const result = yield call(unfollowAPI, action.data);
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -49,7 +48,7 @@ const actions = {
   [UNFOLLOW_SUCCESS]: (state: IUserState, action) => {
     state.unfollowLoading = false;
     state.me.Followings = state.me.Followings.filter(
-      (v) => v.id !== action.data
+      (v) => v.id !== action.data.UserId
     );
     state.unfollowDone = true;
   },

@@ -1,6 +1,11 @@
 import React from "react";
 import { Button, Card, List } from "antd";
 import { StopOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import {
+  REMOVE_FOLLOWER_REQUEST,
+  UNFOLLOW_REQUEST,
+} from "../../store/constants";
 
 interface IFollow {
   id: number | string;
@@ -15,6 +20,20 @@ interface IProps {
 }
 
 const FollowList = ({ header, data, onClickMore, loading }: IProps) => {
+  const dispatch = useDispatch();
+  const onCancel = (id) => () => {
+    if (header === "팔로잉") {
+      dispatch({
+        type: UNFOLLOW_REQUEST,
+        data: id,
+      });
+    }
+    dispatch({
+      type: REMOVE_FOLLOWER_REQUEST,
+      data: id,
+    });
+  };
+
   return (
     <List
       style={{ marginBottom: 20 }}
@@ -24,7 +43,7 @@ const FollowList = ({ header, data, onClickMore, loading }: IProps) => {
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
           <Button onClick={onClickMore} loading={loading}>
-            More
+            더 보기
           </Button>
         </div>
       }
@@ -32,7 +51,9 @@ const FollowList = ({ header, data, onClickMore, loading }: IProps) => {
       dataSource={data}
       renderItem={(item: IFollow) => (
         <List.Item style={{ marginTop: 20 }}>
-          <Card actions={[<StopOutlined key="stop" />]}>
+          <Card
+            actions={[<StopOutlined key="stop" onClick={onCancel(item.id)} />]}
+          >
             <Card.Meta description={item.nickname} />
           </Card>
         </List.Item>

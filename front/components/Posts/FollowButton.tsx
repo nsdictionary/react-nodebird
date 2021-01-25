@@ -17,7 +17,10 @@ const FollowButton = ({ post }: IProps) => {
   const isFollowing = me?.Followings.find((v) => v.id === post.User.id);
   const onClickButton = useCallback(() => {
     if (!me) {
-      return;
+      return alert("로그인이 필요합니다.");
+    }
+    if (me.id === post.User.id) {
+      return alert("자기 자신은 팔로우 할 수 없습니다.");
     }
     if (isFollowing) {
       dispatch({

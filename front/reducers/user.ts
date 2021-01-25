@@ -14,6 +14,18 @@ import {
   ILoadMyInfoState,
   useLoadMyInfoHandler,
 } from "../sagas/user/loadMyInfo";
+import {
+  IChangeNicknameState,
+  useChangeNicknameHandler,
+} from "../sagas/user/changeNickname";
+import {
+  ILoadFollowersState,
+  useLoadFollowersHandler,
+} from "../sagas/user/loadFollowers";
+import {
+  ILoadFollowingsState,
+  useLoadFollowingsHandler,
+} from "../sagas/user/loadFollowings";
 
 const handlers = [
   useLogOutHandler(),
@@ -22,6 +34,9 @@ const handlers = [
   useFollowHandler(),
   useUnfollowHandler(),
   useLoadMyInfoHandler(),
+  useChangeNicknameHandler(),
+  useLoadFollowersHandler(),
+  useLoadFollowingsHandler(),
 ];
 
 export const initialState = {
@@ -46,7 +61,10 @@ export interface IUserState
     ISignUpState,
     IFollowState,
     IUnfollowState,
-    ILoadMyInfoState {
+    ILoadMyInfoState,
+    IChangeNicknameState,
+    ILoadFollowersState,
+    ILoadFollowingsState {
   me: null | {
     id: idType;
     nickname: string;
