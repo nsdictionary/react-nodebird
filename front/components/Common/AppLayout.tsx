@@ -10,22 +10,6 @@ import { createGlobalStyle } from "styled-components";
 import useInput from "../../hooks/useInput";
 import { useRouter } from "next/router";
 
-// antd design bug fix (gutter)
-const Global = createGlobalStyle`
-  .ant-row {
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-  }
-  
-  .ant-col:first-child {
-    padding-left: 0 !important;
-  }
-
-  .ant-col:last-child {
-    padding-left: 0 !important;
-  }
-`;
-
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
 `;
@@ -45,7 +29,6 @@ const AppLayout = ({ children }: IProps) => {
 
   return (
     <div>
-      <Global />
       <Menu mode={"horizontal"}>
         <Menu.Item>
           <Link href="/">
@@ -64,11 +47,6 @@ const AppLayout = ({ children }: IProps) => {
             onChange={onChangeSearchInput}
             onSearch={onSearch}
           />
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/signup">
-            <a>Signup</a>
-          </Link>
         </Menu.Item>
       </Menu>
       <Row gutter={8}>
