@@ -25,6 +25,7 @@ import watchUnlikePost from "./post/unlikePost";
 import watchRetweet from "./post/retweet";
 import watchUploadImages from "./post/uploadImage";
 import watchLoadHashtagPosts from "./post/loadHashtag";
+import watchLoadUserPosts from "./post/loadUserPosts";
 
 export default function* rootSaga() {
   yield all([
@@ -49,5 +50,6 @@ export default function* rootSaga() {
     fork(watchRetweet),
     fork(watchUploadImages),
     fork(watchLoadHashtagPosts),
+    fork(watchLoadUserPosts),
   ]);
 }

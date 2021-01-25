@@ -24,6 +24,7 @@ import {
 import { REMOVE_IMAGE } from "../store/constants";
 import { ILoadPostState, useLoadPostHandler } from "../sagas/post/loadPost";
 import { useLoadHashtagHandler } from "../sagas/post/loadHashtag";
+import { useLoadUserPostsHandler } from "../sagas/post/loadUserPosts";
 
 const handlers = [
   useAddCommentHandler(),
@@ -36,6 +37,7 @@ const handlers = [
   useUploadImagesHandler(),
   useLoadPostHandler(),
   useLoadHashtagHandler(),
+  useLoadUserPostsHandler(),
 ];
 
 export const initialState = {

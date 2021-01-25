@@ -3,6 +3,7 @@ import * as express from "express";
 import * as passport from "passport";
 import db from "../models";
 import UserService from "../service/user.service";
+import { Op } from "sequelize";
 
 const router = Router();
 const { Post, Image, Comment, User, Hashtag } = db.sequelize.models;
@@ -241,6 +242,71 @@ router.get(
         res.status(200).json(data);
       } else {
         res.status(404).json("존재하지 않는 사용자입니다.");
+      }
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
+router.get(
+  "/:id/posts",
+  async (req: any, res: express.Response, next: express.NextFunction) => {
+    // GET /user/1/posts
+    try {
+      const user = await User.findOne({ where: { id: req.params.id } });
+      if (user) {
+        const where: any = {};
+        if (parseInt(req.query.lastId, 10)) {
+          // 초기 로딩이 아닐 때
+          where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
+        } // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
+        const posts = await user.getPosts({
+          where,
+          limit: 10,
+          include: [
+            {
+              model: Image,
+            },
+            {
+              model: Comment,
+              include: [
+                {
+                  model: User,
+                  attributes: ["id", "nickname"],
+                },
+              ],
+            },
+            {
+              model: User,
+              attributes: ["id", "nickname"],
+            },
+            {
+              model: User,
+              through: "Like",
+              as: "Likers",
+              attributes: ["id"],
+            },
+            {
+              model: Post,
+              as: "Retweet",
+              include: [
+                {
+                  model: User,
+                  attributes: ["id", "nickname"],
+                },
+                {
+                  model: Image,
+                },
+              ],
+            },
+          ],
+        });
+        console.log(posts);
+        res.status(200).json(posts);
+      } else {
+        res.status(404).send("존재하지 않는 사용자입니다.");
       }
     } catch (error) {
       console.error(error);
