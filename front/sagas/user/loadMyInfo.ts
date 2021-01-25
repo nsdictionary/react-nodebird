@@ -7,13 +7,13 @@ import {
 } from "../../store/constants";
 import { IUserState } from "../../reducers/user";
 
-function loadUserAPI() {
+function loadMyInfoAPI() {
   return axios.get("/user");
 }
 
-function* loadUser(action) {
+function* loadMyInfo(action) {
   try {
-    const result = yield call(loadUserAPI);
+    const result = yield call(loadMyInfoAPI);
     yield put({
       type: LOAD_MY_INFO_SUCCESS,
       data: result.data,
@@ -28,9 +28,9 @@ function* loadUser(action) {
 }
 
 export interface ILoadMyInfoState {
-  loadUserLoading: boolean;
-  loadUserDone: boolean;
-  loadUserError: null | string;
+  loadMyInfoLoading: boolean;
+  loadMyInfoDone: boolean;
+  loadMyInfoError: null | string;
 }
 
 const initialState = {
@@ -41,18 +41,18 @@ const initialState = {
 
 const actions = {
   [LOAD_MY_INFO_REQUEST]: (state: IUserState, action) => {
-    state.loadUserLoading = true;
-    state.loadUserError = null;
-    state.loadUserDone = false;
+    state.loadMyInfoLoading = true;
+    state.loadMyInfoError = null;
+    state.loadMyInfoDone = false;
   },
   [LOAD_MY_INFO_SUCCESS]: (state: IUserState, action) => {
-    state.loadUserLoading = false;
+    state.loadMyInfoLoading = false;
     state.me = action.data;
-    state.loadUserDone = true;
+    state.loadMyInfoDone = true;
   },
   [LOAD_MY_INFO_FAILURE]: (state: IUserState, action) => {
-    state.loadUserLoading = false;
-    state.loadUserError = action.error;
+    state.loadMyInfoLoading = false;
+    state.loadMyInfoError = action.error;
   },
 };
 
@@ -60,6 +60,6 @@ export const useLoadMyInfoHandler = () => {
   return { initialState, actions };
 };
 
-export default function* watchLoadUser() {
-  yield takeLatest(LOAD_MY_INFO_REQUEST, loadUser);
+export default function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }

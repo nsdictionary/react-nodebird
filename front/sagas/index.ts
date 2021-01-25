@@ -4,7 +4,7 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:3065";
 axios.defaults.withCredentials = true;
 
-import watchLoadUser from "./user/loadMyInfo";
+import watchLoadMyInfo from "./user/loadMyInfo";
 import watchLogIn from "./user/login";
 import watchLogOut from "./user/logout";
 import watchSignUp from "./user/signUp";
@@ -25,7 +25,7 @@ import watchUploadImages from "./post/uploadImage";
 
 export default function* rootSaga() {
   yield all([
-    fork(watchLoadUser),
+    fork(watchLoadMyInfo),
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchSignUp),
