@@ -5,17 +5,20 @@
   "main": "index.js",
   "scripts": {
     "dev": "next -p 3060",
-    "build": "next build"
+    "build": "cross-env NODE_ENV=production ANALYZE=true next build",
+    "start": "cross-env NODE_ENV=production next start -p 3060"
   },
   "keywords": [],
   "author": "DS1SVG",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
+    "@next/bundle-analyzer": "^10.0.5",
     "@types/styled-components": "^5.1.7",
     "antd": "^4.10.3",
     "axios": "^0.21.1",
     "babel-plugin-styled-components": "^1.12.0",
+    "cross-env": "^7.0.3",
     "faker": "^5.1.0",
     "immer": "^8.0.1",
     "moment": "^2.29.1",
