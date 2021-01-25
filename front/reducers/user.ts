@@ -30,6 +30,7 @@ import {
   IRemoveFollowerState,
   useRemoveFollowerHandler,
 } from "../sagas/user/removeFollower";
+import { ILoadUserState, useLoadUserHandler } from "../sagas/user/loadUser";
 
 const handlers = [
   useLogOutHandler(),
@@ -42,6 +43,7 @@ const handlers = [
   useLoadFollowersHandler(),
   useLoadFollowingsHandler(),
   useRemoveFollowerHandler(),
+  useLoadUserHandler(),
 ];
 
 export const initialState = {
@@ -70,7 +72,8 @@ export interface IUserState
     IChangeNicknameState,
     ILoadFollowersState,
     ILoadFollowingsState,
-    IRemoveFollowerState {
+    IRemoveFollowerState,
+    ILoadUserState {
   me: null | {
     id: idType;
     nickname: string;
@@ -79,8 +82,7 @@ export interface IUserState
     Followings: { id: idType; nickname: string }[];
     Followers: { id: idType; nickname: string }[];
   };
-  signUpData: any;
-  loginData: any;
+  userInfo: any;
 }
 
 export const loginRequestAction = (data) => ({
