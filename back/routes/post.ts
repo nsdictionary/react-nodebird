@@ -150,6 +150,11 @@ router.post(
               },
             ],
           },
+          {
+            model: User,
+            as: "Likers",
+            attributes: ["id"],
+          },
         ],
       });
       res.status(201).json(retweetWithPrevPost);

@@ -21,7 +21,7 @@ import {
   IUploadImagesState,
   useUploadImagesHandler,
 } from "../sagas/post/uploadImage";
-import { REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from "../store/constants";
+import { REMOVE_IMAGE } from "../store/constants";
 
 const handlers = [
   useAddCommentHandler(),
@@ -66,6 +66,8 @@ export interface IPost {
     User: User;
     content: string;
   }[];
+  RetweetId?: number;
+  Retweet?: any;
 }
 
 export interface IPostState
@@ -79,7 +81,7 @@ export interface IPostState
     IUploadImagesState {
   mainPosts: IPost[];
   hasMorePosts: boolean;
-  imagePaths: any;
+  imagePaths: string[];
 }
 
 export const generateDummyPost = (number: number): IPost[] =>

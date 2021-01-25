@@ -32,7 +32,7 @@ const FollowButton = ({ post }: IProps) => {
     }
   }, [me, isFollowing]);
 
-  if (me.id === post.User.id) {
+  if (me?.id === post.User.id) {
     return null;
   }
 

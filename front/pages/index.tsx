@@ -10,9 +10,18 @@ import { LOAD_MY_INFO_REQUEST, LOAD_POSTS_REQUEST } from "../store/constants";
 const Home = () => {
   const dispatch = useDispatch();
   const { me } = useSelector((state: IState) => state.user);
-  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
-    (state: IState) => state.post
-  );
+  const {
+    mainPosts,
+    hasMorePosts,
+    loadPostsLoading,
+    retweetError,
+  } = useSelector((state: IState) => state.post);
+
+  useEffect(() => {
+    if (retweetError) {
+      alert(retweetError);
+    }
+  }, [retweetError]);
 
   useEffect(() => {
     dispatch({
