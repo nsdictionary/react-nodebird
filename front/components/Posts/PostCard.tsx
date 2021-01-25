@@ -22,10 +22,13 @@ import {
   RETWEET_REQUEST,
   UNLIKE_POST_REQUEST,
 } from "../../store/constants";
+import moment from "moment";
 
 interface IProps {
   post: IPost;
 }
+
+moment.locale("ko");
 
 const CardWrapper = styled.div`
   margin-bottom: 20px;
@@ -132,6 +135,9 @@ const PostCard = ({ post }: IProps) => {
               )
             }
           >
+            <span style={{ float: "right" }}>
+              {moment(post.createdAt).format("YYYY.MM.DD.")}
+            </span>
             <Card.Meta
               avatar={
                 <Link href={`/user/${post.Retweet.User.id}`}>
@@ -145,17 +151,22 @@ const PostCard = ({ post }: IProps) => {
             />
           </Card>
         ) : (
-          <Card.Meta
-            avatar={
-              <Link href={`/user/${post.User.id}`}>
-                <a>
-                  <Avatar>{post.User.nickname[0]}</Avatar>
-                </a>
-              </Link>
-            }
-            title={post.User.nickname}
-            description={<PostCardContent postData={post.content} />}
-          />
+          <>
+            <span style={{ float: "right" }}>
+              {moment(post.createdAt).format("YYYY.MM.DD.")}
+            </span>
+            <Card.Meta
+              avatar={
+                <Link href={`/user/${post.User.id}`}>
+                  <a>
+                    <Avatar>{post.User.nickname[0]}</Avatar>
+                  </a>
+                </Link>
+              }
+              title={post.User.nickname}
+              description={<PostCardContent postData={post.content} />}
+            />
+          </>
         )}
       </Card>
       {commentFormOpened && (

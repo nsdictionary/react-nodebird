@@ -117,8 +117,8 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-    console.log("getState", context.store.getState().post.mainPosts);
-    return { props: {} };
+    // console.log("getState", context.store.getState().post.mainPosts);
+    // return { props: {} };
   }
 );
 

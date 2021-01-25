@@ -74,6 +74,7 @@ export interface IPost {
   }[];
   RetweetId?: number;
   Retweet?: any;
+  createdAt: string;
 }
 
 export interface IPostState
@@ -118,6 +119,7 @@ export const generateDummyPost = (number: number): IPost[] =>
           content: faker.lorem.sentence(),
         },
       ],
+      createdAt: "",
     }));
 
 const reducer = createReducer(initialState, {
