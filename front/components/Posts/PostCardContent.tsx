@@ -8,17 +8,22 @@ interface IProps {
 const PostCardContent = ({ postData }: IProps) => {
   return (
     <div>
-      {postData.split(/(#[^\s#]+)/g).map((v) => {
+      {postData.split(/(#[^\s#]+)/g).map((v: string, i: number) => {
         if (v.match(/(#[^\s]+)/)) {
           return (
-            <Link
-              href={{ pathname: "/hashtag", query: { tag: v.slice(1) } }}
-              as={`/hashtag/${v.slice(1)}`}
-              key={v}
-            >
+            <Link href={`/hashtag/${v.slice(1)}`} key={i}>
               <a>{v}</a>
             </Link>
           );
+          // return (
+          //   <Link
+          //     href={{ pathname: "/hashtag", query: { tag: v.slice(1) } }}
+          //     as={`/hashtag/${v.slice(1)}`}
+          //     key={v}
+          //   >
+          //     <a>{v}</a>
+          //   </Link>
+          // );
         }
         return v;
       })}
