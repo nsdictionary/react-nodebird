@@ -19,9 +19,6 @@ const FollowButton = ({ post }: IProps) => {
     if (!me) {
       return alert("로그인이 필요합니다.");
     }
-    if (me.id === post.User.id) {
-      return alert("자기 자신은 팔로우 할 수 없습니다.");
-    }
     if (isFollowing) {
       dispatch({
         type: UNFOLLOW_REQUEST,
@@ -34,6 +31,10 @@ const FollowButton = ({ post }: IProps) => {
       });
     }
   }, [me, isFollowing]);
+
+  if (me.id === post.User.id) {
+    return null;
+  }
 
   return (
     <Button loading={followLoading || unfollowLoading} onClick={onClickButton}>

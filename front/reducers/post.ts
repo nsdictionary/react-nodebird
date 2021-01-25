@@ -17,6 +17,11 @@ import {
   useUnLikePostHandler,
 } from "../sagas/post/unlikePost";
 import { IRetweetState, useRetweetHandler } from "../sagas/post/retweet";
+import {
+  IUploadImagesState,
+  useUploadImagesHandler,
+} from "../sagas/post/uploadImage";
+import { REMOVE_IMAGE, UPLOAD_IMAGES_REQUEST } from "../store/constants";
 
 const handlers = [
   useAddCommentHandler(),
@@ -26,6 +31,7 @@ const handlers = [
   useLikePostHandler(),
   useUnLikePostHandler(),
   useRetweetHandler(),
+  useUploadImagesHandler(),
 ];
 
 export const initialState = {
@@ -69,7 +75,8 @@ export interface IPostState
     ILoadPostState,
     ILikePostState,
     IUnLikePostState,
-    IRetweetState {
+    IRetweetState,
+    IUploadImagesState {
   mainPosts: IPost[];
   hasMorePosts: boolean;
   imagePaths: any;
@@ -111,6 +118,9 @@ const reducer = createReducer(initialState, {
     .reduce((acc, cur) => {
       return { ...acc, ...cur };
     }),
+  [REMOVE_IMAGE]: (state: IPostState, action) => {
+    state.imagePaths = state.imagePaths.filter((v, i) => i !== action.data);
+  },
 });
 
 export default reducer;

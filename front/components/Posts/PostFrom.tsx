@@ -2,7 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Form, Input, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { IState } from "../../reducers";
-import { ADD_POST_REQUEST } from "../../store/constants";
+import {
+  ADD_POST_REQUEST,
+  REMOVE_IMAGE,
+  UPLOAD_IMAGES_REQUEST,
+} from "../../store/constants";
 
 const PostFrom = () => {
   const dispatch = useDispatch();
@@ -43,7 +47,32 @@ const PostFrom = () => {
       type: ADD_POST_REQUEST,
       data: formData,
     });
-  }, [text]);
+  }, [text, imagePaths]);
+
+  const onChangeImages = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      console.log("images", e.target.files);
+      const imageFormData = new FormData();
+      [].forEach.call(e.target.files, (f) => {
+        imageFormData.append("image", f);
+      });
+      dispatch({
+        type: UPLOAD_IMAGES_REQUEST,
+        data: imageFormData,
+      });
+    },
+    []
+  );
+
+  const onRemoveImage = useCallback(
+    (index) => () => {
+      dispatch({
+        type: REMOVE_IMAGE,
+        data: index,
+      });
+    },
+    []
+  );
 
   return (
     <Form
@@ -58,7 +87,14 @@ const PostFrom = () => {
         placeholder="어떤 신기한 일이 있었나요?"
       />
       <div>
-        <input type="file" multiple hidden ref={imageInput} />
+        <input
+          type="file"
+          name="image"
+          multiple
+          hidden
+          ref={imageInput}
+          onChange={onChangeImages}
+        />
         <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         <Button
           type="primary"
@@ -70,7 +106,7 @@ const PostFrom = () => {
         </Button>
       </div>
       <div>
-        {imagePaths.map((v: string) => {
+        {imagePaths.map((v: string, i: number) => {
           return (
             <div key={v} style={{ display: "inline-block" }}>
               <img
@@ -79,7 +115,7 @@ const PostFrom = () => {
                 alt={v}
               />
               <div>
-                <Button>제거</Button>
+                <Button onClick={onRemoveImage(i)}>제거</Button>
               </div>
             </div>
           );
