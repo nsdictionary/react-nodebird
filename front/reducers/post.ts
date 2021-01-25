@@ -16,6 +16,7 @@ import {
   IUnLikePostState,
   useUnLikePostHandler,
 } from "../sagas/post/unlikePost";
+import { IRetweetState, useRetweetHandler } from "../sagas/post/retweet";
 
 const handlers = [
   useAddCommentHandler(),
@@ -24,6 +25,7 @@ const handlers = [
   useLoadPostHandler(),
   useLikePostHandler(),
   useUnLikePostHandler(),
+  useRetweetHandler(),
 ];
 
 export const initialState = {
@@ -66,7 +68,8 @@ export interface IPostState
     IAddCommentState,
     ILoadPostState,
     ILikePostState,
-    IUnLikePostState {
+    IUnLikePostState,
+    IRetweetState {
   mainPosts: IPost[];
   hasMorePosts: boolean;
   imagePaths: any;
