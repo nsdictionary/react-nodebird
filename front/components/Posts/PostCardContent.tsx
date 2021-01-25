@@ -15,15 +15,6 @@ const PostCardContent = ({ postData }: IProps) => {
               <a>{v}</a>
             </Link>
           );
-          // return (
-          //   <Link
-          //     href={{ pathname: "/hashtag", query: { tag: v.slice(1) } }}
-          //     as={`/hashtag/${v.slice(1)}`}
-          //     key={v}
-          //   >
-          //     <a>{v}</a>
-          //   </Link>
-          // );
         }
         return v;
       })}
