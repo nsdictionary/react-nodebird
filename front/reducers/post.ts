@@ -10,7 +10,7 @@ import {
   IRemovePostState,
   useRemovePostHandler,
 } from "../sagas/post/removePost";
-import { ILoadPostState, useLoadPostHandler } from "../sagas/post/loadPost";
+import { ILoadPostsState, useLoadPostsHandler } from "../sagas/post/loadPosts";
 import { ILikePostState, useLikePostHandler } from "../sagas/post/likePost";
 import {
   IUnLikePostState,
@@ -22,16 +22,18 @@ import {
   useUploadImagesHandler,
 } from "../sagas/post/uploadImage";
 import { REMOVE_IMAGE } from "../store/constants";
+import { ILoadPostState, useLoadPostHandler } from "../sagas/post/loadPost";
 
 const handlers = [
   useAddCommentHandler(),
   useAddPostHandler(),
   useRemovePostHandler(),
-  useLoadPostHandler(),
+  useLoadPostsHandler(),
   useLikePostHandler(),
   useUnLikePostHandler(),
   useRetweetHandler(),
   useUploadImagesHandler(),
+  useLoadPostHandler(),
 ];
 
 export const initialState = {
@@ -74,12 +76,14 @@ export interface IPostState
   extends IAddPostState,
     IRemovePostState,
     IAddCommentState,
-    ILoadPostState,
+    ILoadPostsState,
     ILikePostState,
     IUnLikePostState,
     IRetweetState,
-    IUploadImagesState {
+    IUploadImagesState,
+    ILoadPostState {
   mainPosts: IPost[];
+  singlePost: any;
   hasMorePosts: boolean;
   imagePaths: string[];
 }

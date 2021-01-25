@@ -1,62 +1,58 @@
-import { put, call, delay, throttle } from "redux-saga/effects";
+import { put, call, delay, throttle, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 import {
-  LOAD_POSTS_FAILURE,
-  LOAD_POSTS_REQUEST,
-  LOAD_POSTS_SUCCESS,
+  LOAD_POST_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
 } from "../../store/constants";
-import { generateDummyPost, IPostState } from "../../reducers/post";
+import { IPostState } from "../../reducers/post";
 
-function loadPostsAPI(lastId) {
-  return axios.get(`/posts?lastId=${lastId || 0}`);
+function loadPostAPI(data) {
+  return axios.get(`/post/${data}`);
 }
 
-function* loadPosts(action) {
+function* loadPost(action) {
   try {
-    const result = yield call(loadPostsAPI, action.data);
+    const result = yield call(loadPostAPI, action.data);
     yield put({
-      type: LOAD_POSTS_SUCCESS,
+      type: LOAD_POST_SUCCESS,
       data: result.data,
-      // data: generateDummyPost(10),
     });
   } catch (err) {
     console.error(err);
     yield put({
-      type: LOAD_POSTS_FAILURE,
+      type: LOAD_POST_FAILURE,
       data: err.response.data,
     });
   }
 }
 
 export interface ILoadPostState {
-  loadPostsLoading: boolean;
-  loadPostsDone: boolean;
-  loadPostsError: null | string;
+  loadPostLoading: boolean;
+  loadPostDone: boolean;
+  loadPostError: null | string;
 }
 
 const initialState = {
-  loadPostsLoading: false,
-  loadPostsDone: false,
-  loadPostsError: null,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
 };
 
 const actions = {
-  [LOAD_POSTS_REQUEST]: (state: IPostState, action) => {
-    state.loadPostsLoading = true;
-    state.loadPostsDone = false;
-    state.loadPostsError = null;
+  [LOAD_POST_REQUEST]: (state: IPostState, action) => {
+    state.loadPostLoading = true;
+    state.loadPostDone = false;
+    state.loadPostError = null;
   },
-  [LOAD_POSTS_SUCCESS]: (state: IPostState, action) => {
-    state.loadPostsLoading = false;
-    state.loadPostsDone = true;
-    state.mainPosts = state.mainPosts.concat(action.data);
-    state.hasMorePosts = action.data.length === 10;
-    // state.mainPosts = action.data.concat(state.mainPosts);
-    // state.hasMorePosts = state.mainPosts.length < 50;
+  [LOAD_POST_SUCCESS]: (state: IPostState, action) => {
+    state.loadPostLoading = false;
+    state.loadPostDone = true;
+    state.singlePost = action.data;
   },
-  [LOAD_POSTS_FAILURE]: (state: IPostState, action) => {
-    state.loadPostsLoading = false;
-    state.loadPostsError = action.error;
+  [LOAD_POST_FAILURE]: (state: IPostState, action) => {
+    state.loadPostLoading = false;
+    state.loadPostError = action.error;
   },
 };
 
@@ -64,6 +60,6 @@ export const useLoadPostHandler = () => {
   return { initialState, actions };
 };
 
-export default function* watchLoadPosts() {
-  yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
+export default function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost);
 }

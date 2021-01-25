@@ -18,7 +18,8 @@ import watchRemoveFollower from "./user/removeFollower";
 import watchAddPost from "./post/addPost";
 import watchAddComment from "./post/addComment";
 import watchRemovePost from "./post/removePost";
-import watchLoadPosts from "./post/loadPost";
+import watchLoadPosts from "./post/loadPosts";
+import watchLoadPost from "./post/loadPost";
 import watchLikePost from "./post/likePost";
 import watchUnlikePost from "./post/unlikePost";
 import watchRetweet from "./post/retweet";
@@ -41,6 +42,7 @@ export default function* rootSaga() {
     fork(watchAddComment),
     fork(watchRemovePost),
     fork(watchLoadPosts),
+    fork(watchLoadPost),
     fork(watchLikePost),
     fork(watchUnlikePost),
     fork(watchRetweet),
